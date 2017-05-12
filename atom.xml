@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://wangfuda.github.io/"/>
-  <updated>2017-05-12T02:14:15.613Z</updated>
+  <updated>2017-05-12T02:18:56.939Z</updated>
   <id>http://wangfuda.github.io/</id>
   
   <author>
@@ -17,10 +17,10 @@
   
   <entry>
     <title>vue-hackernews-2.0 code explain</title>
-    <link href="http://wangfuda.github.io/2014/02/13/vue-hackernews-2.0-code-explain/"/>
-    <id>http://wangfuda.github.io/2014/02/13/vue-hackernews-2.0-code-explain/</id>
-    <published>2014-02-13T00:55:00.000Z</published>
-    <updated>2017-05-12T02:14:15.613Z</updated>
+    <link href="http://wangfuda.github.io/2017/05/14/vue-hackernews-2.0-code-explain/"/>
+    <id>http://wangfuda.github.io/2017/05/14/vue-hackernews-2.0-code-explain/</id>
+    <published>2017-05-14T00:55:00.000Z</published>
+    <updated>2017-05-12T02:18:56.939Z</updated>
     
     <content type="html"><![CDATA[<p><img src="/assets/postImg/day_0.jpg" alt="avatar"></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>一直从事Android开发技术，出于对前端的兴趣，准备研究下Vue前端框架，顺便学习前端技术栈。</p>
@@ -75,10 +75,10 @@ express.use(&apos;/*&apos;) &apos;*&apos; 代表任何, 匹配&apos;/&apos;以�
   
   <entry>
     <title>vue-hackernews-2.0 code detail</title>
-    <link href="http://wangfuda.github.io/2014/02/13/vue-hackernews-2.0-code-detail/"/>
-    <id>http://wangfuda.github.io/2014/02/13/vue-hackernews-2.0-code-detail/</id>
-    <published>2014-02-13T00:55:00.000Z</published>
-    <updated>2017-05-12T01:58:18.467Z</updated>
+    <link href="http://wangfuda.github.io/2017/05/13/vue-hackernews-2.0-code-detail/"/>
+    <id>http://wangfuda.github.io/2017/05/13/vue-hackernews-2.0-code-detail/</id>
+    <published>2017-05-12T16:00:00.000Z</published>
+    <updated>2017-05-12T02:19:11.708Z</updated>
     
     <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文按章节分解了vue-hackernews-2.0开源项目中的一些知识点的细节，作为对<a href="http://wangfuda.github.io">项目源码解读</a>的细节原理解读补充。</p>
 <h2 id="1"><a href="#1" class="headerlink" title="1."></a>1.</h2>]]></content>

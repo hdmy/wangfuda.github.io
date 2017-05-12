@@ -6,15 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://wangfuda.github.io">
-  <title>Archives | osan&#39;s blog</title>
+  <title>vue-hackernews-2.0 code explain | osan&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="keywords" content="android,前端,js,jquery,javascript,html5,开发者,程序猿,程序媛,极客,编程,代码,开源,IT网站,Developer,Programmer,Coder,Geek,html,css,css3,用户体验">
-<meta property="og:type" content="website">
-<meta property="og:title" content="osan&#39;s blog">
-<meta property="og:url" content="http://wangfuda.github.io/archives/index.html">
+  <meta name="description" content="前言一直从事Android开发技术，出于对前端的兴趣，准备研究下Vue前端框架，顺便学习前端技术栈。 本文会写的很详尽，对涉及到的知识点，都会做一些解读，已熟悉的知识点请直接略过。 vue-hackernews项目，看似简单，实际涉及知识点及技术栈非常全面，对于初学者或者零知识储备者来说，直接阅读该项目，困难是很大的。这也是我写这个项目解读的初衷，希望通过阅读这样一个项目，来综合学习此项目涉及到">
+<meta name="keywords" content="vue,Vuex,vue-router,ssr,webpack">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue-hackernews-2.0 code explain">
+<meta property="og:url" content="http://wangfuda.github.io/2017/05/14/vue-hackernews-2.0-code-explain/index.html">
 <meta property="og:site_name" content="osan&#39;s blog">
+<meta property="og:description" content="前言一直从事Android开发技术，出于对前端的兴趣，准备研究下Vue前端框架，顺便学习前端技术栈。 本文会写的很详尽，对涉及到的知识点，都会做一些解读，已熟悉的知识点请直接略过。 vue-hackernews项目，看似简单，实际涉及知识点及技术栈非常全面，对于初学者或者零知识储备者来说，直接阅读该项目，困难是很大的。这也是我写这个项目解读的初衷，希望通过阅读这样一个项目，来综合学习此项目涉及到">
+<meta property="og:image" content="http://wangfuda.github.io/assets/postImg/day_0.jpg">
+<meta property="og:image" content="http://wangfuda.github.io/assets/postImg/rundev.png">
+<meta property="og:image" content="http://wangfuda.github.io/assets/postImg/demo.png">
+<meta property="og:updated_time" content="2017-05-12T02:18:56.939Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="osan&#39;s blog">
+<meta name="twitter:title" content="vue-hackernews-2.0 code explain">
+<meta name="twitter:description" content="前言一直从事Android开发技术，出于对前端的兴趣，准备研究下Vue前端框架，顺便学习前端技术栈。 本文会写的很详尽，对涉及到的知识点，都会做一些解读，已熟悉的知识点请直接略过。 vue-hackernews项目，看似简单，实际涉及知识点及技术栈非常全面，对于初学者或者零知识储备者来说，直接阅读该项目，困难是很大的。这也是我写这个项目解读的初衷，希望通过阅读这样一个项目，来综合学习此项目涉及到">
+<meta name="twitter:image" content="http://wangfuda.github.io/assets/postImg/day_0.jpg">
   
     <link rel="alternative" href="/atom.xml" title="osan&#39;s blog" type="application/atom+xml">
   
@@ -140,36 +148,94 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-vue-hackernews-2.0-code-explain" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      vue-hackernews-2.0 code explain
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/05/14/vue-hackernews-2.0-code-explain/" class="archive-article-date">
+
+        
+        <a href="/2017/05/14/vue-hackernews-2.0-code-explain/" class="archive-article-date">
   	<time datetime="2017-05-14T00:55:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-14</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/05/14/vue-hackernews-2.0-code-explain/">vue-hackernews-2.0 code explain</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="/assets/postImg/day_0.jpg" alt="avatar"></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>一直从事Android开发技术，出于对前端的兴趣，准备研究下Vue前端框架，顺便学习前端技术栈。</p>
+<p>本文会写的很详尽，对涉及到的知识点，都会做一些解读，已熟悉的知识点请直接略过。</p>
+<p>vue-hackernews项目，看似简单，实际涉及知识点及技术栈非常全面，对于初学者或者零知识储备者来说，直接阅读<br>该项目，困难是很大的。这也是我写这个项目解读的初衷，希望通过阅读这样一个项目，来综合学习此项目涉及到的技术栈。</p>
+<h2 id="起步"><a href="#起步" class="headerlink" title="起步"></a>起步</h2><blockquote>
+<p>HackerNews 是基于 HN 的官方 firebase API 、Vue 2.0 、vue-router 和 vuex 来构建的，使用服务器端渲染。<br>项目源码地址:<a href="https://github.com/vuejs/vue-hackernews-2.0" target="_blank" rel="external">vue-hackernews-2.0</a></p>
+</blockquote>
+<p>本项目包含开发模式及生产模式，我们先讲开发模式。</p>
+<p>让我们从node环境下执行node命令开始。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># serve in dev mode, with hot reload at localhost:8080</span></div><div class="line"><span class="variable">$npm</span> run dev</div></pre></td></tr></table></figure></p>
+<p>然后发生了什么？我们来看一张图。<br><img src="/assets/postImg/rundev.png" alt="rundev"></p>
+<p>执行dev属性对应的脚本：<code>node server</code>即<code>node server.js</code></p>
+<blockquote>
+<p>Tips:<a href="http://wangfuda.github.io">package.json解读</a></p>
+</blockquote>
+<p>执行<code>npm run dev</code>后，先去package.json中的scripts字段对应的对象，找到dev属性，并执行dev属性对应的脚本：<code>node server</code>即<code>node server.js</code><br>即执行server.js<br>server.js做了什么？一句话概括，最终监听本机8080端口，等待客户端请求。<br>然后就可以访问<a href="http://localhost:8080" target="_blank" rel="external">http://localhost:8080</a> ，看看效果了。<br><img src="/assets/postImg/demo.png" alt="demo"></p>
+<p>接下来我们从server.js开始一步一步，梳理整个项目的流程。</p>
+<p>先上一张整个基于代码文件执行流的流程框图，顺着文件执行流的藤，先摸摸瓜，看不太明白没关系，随着深入的了解每个文件的功能，回过头看就更清晰了。</p>
+<h2 id="server-js"><a href="#server-js" class="headerlink" title="server.js"></a>server.js</h2><p>找到真正驱动这个js运作的核心代码段：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">app.get(<span class="string">'*'</span>, isProd ? render : <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</div><div class="line">  readyPromise.then(<span class="function"><span class="params">()</span> =&gt;</span> render(req, res))</div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="keyword">const</span> port = process.env.PORT || <span class="number">8080</span></div><div class="line">app.listen(port, () =&gt; &#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">`server started at localhost:<span class="subst">$&#123;port&#125;</span>`</span>)</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<p>当敲下npm run dev后，server.js执行完，上面的代码启动一个服务并监听从 8080 端口进入的所有连接请求。 （注意：由于在此段代码前，express实例装载了一些路由中间件，那么这些中间件会优先处理，然后才会传递给此路由处理。其中有几个中间件也对路由请求做了处理，包括一些静态资源的处理。后面涉及到相关资源请求时会详细讲解）</p>
+<blockquote>
+<p>Tip</p>
+</blockquote>
+<pre><code>express.use(&apos;/&apos;) 只匹配 host+&apos;/&apos;这个路径
 
-        <div class="article-info info-on-right">
-          
+express.use(&apos;/*&apos;) &apos;*&apos; 代表任何, 匹配&apos;/&apos;以及&apos;/&apos;后面加任何的路径
+
+当一个路径有多个匹配规则时，使用app.use，否则使用相应的app.method(get、post)  app.METHOD(PATH, HANDLER)
+</code></pre><p>此时在浏览器访问localhost:8080<br>请求经由express路由接收后，执行处理逻辑:<code>readyPromise.then(() =&gt; render(req, res))</code><br>我们可以看到，这里使用了es6的新特性，Promise。生产环境下，readyPromise的定义：调用了./build/setup-dev-server的默认方法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// In development: setup the dev server with watch and hot-reload,</span></div><div class="line"><span class="comment">// and create a new renderer on bundle / index template update.</span></div><div class="line">readyPromise = <span class="built_in">require</span>(<span class="string">'./build/setup-dev-server'</span>)(app, (bundle, options) =&gt; &#123;</div><div class="line">  renderer = createRenderer(bundle, options)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/img/alipay.png">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/img/weixinpay.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -197,167 +263,89 @@
 		</ul>
 	</div>
 
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/05/13/vue-hackernews-2.0-code-detail/" class="archive-article-date">
-  	<time datetime="2017-05-12T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-13</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/05/13/vue-hackernews-2.0-code-detail/">vue-hackernews-2.0 code detail</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">vue</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Vuex</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">vue-router</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">ssr</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">webpack</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
       
-        </div></section>
+
       
+
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2014" class="archive-year">2014</a>
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2014/02/12/hello-world5/" class="archive-article-date">
-  	<time datetime="2014-02-12T00:55:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-02-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/02/12/hello-world5/">hello world ii</a>
-    </h1>
-  
+      </div>
+    </span>
+  </div>
+</div>
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">js</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">html5</a>
-        		</li>
-      		
-		</ul>
-	</div>
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://wangfuda.github.io/2017/05/14/vue-hackernews-2.0-code-explain/" alt="微信分享二维码">
+    </div>
+</div>
 
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2014/02/11/hello-world/" class="archive-article-date">
-  	<time datetime="2014-02-11T00:55:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-02-11</time>
-</a>
-        </div>
-    	 
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/02/11/hello-world/">hello world i</a>
-    </h1>
+  
+    <a href="/2017/05/13/vue-hackernews-2.0-code-detail/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">vue-hackernews-2.0 code detail</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+  
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">js</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">html5</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
 
 
           </div>
@@ -380,8 +368,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
