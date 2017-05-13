@@ -149,7 +149,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/05/14/vue-hackernews-2.0-code-explain/">vue-hackernews-2.0 code explain</a>
+      <a class="article-title" href="/2017/05/14/vue-hackernews-2.0-code-explain/">vue-hackernews-2.0 源码解读</a>
     </h1>
   
 
@@ -162,36 +162,14 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="/assets/postImg/day_0.jpg" alt="avatar"></p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>一直从事Android开发技术，出于对前端的兴趣，准备研究下Vue前端框架，顺便学习前端技术栈。</p>
-<p>本文会写的很详尽，对涉及到的知识点，都会做一些解读，已熟悉的知识点请直接略过。</p>
-<p>vue-hackernews项目，看似简单，实际涉及知识点及技术栈非常全面，对于初学者或者零知识储备者来说，直接阅读<br>该项目，困难是很大的。这也是我写这个项目解读的初衷，希望通过阅读这样一个项目，来综合学习此项目涉及到的技术栈。</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文将对Vue的官方开源项目<code>vue-hackernews-2.0</code>进行一次全面解读，包括项目中涉及到的前端技术栈。</p>
+<p>vue-hackernews项目，实际涉及知识点及技术栈非常全面，对于初学者来说，直接阅读该项目，极具挑战。这也是我写这个项目解读的初衷。</p>
 <h2 id="起步"><a href="#起步" class="headerlink" title="起步"></a>起步</h2><blockquote>
-<p>HackerNews 是基于 HN 的官方 firebase API 、Vue 2.0 、vue-router 和 vuex 来构建的，使用服务器端渲染。<br>项目源码地址:<a href="https://github.com/vuejs/vue-hackernews-2.0" target="_blank" rel="external">vue-hackernews-2.0</a></p>
+<p><a href="https://github.com/vuejs/vue-hackernews-2.0" target="_blank" rel="external">HackerNews</a>是基于 HN 的官方 firebase API 、Vue 2.0 、vue-router 和 vuex 来构建的，使用服务器端渲染。</p>
 </blockquote>
-<p>本项目包含开发模式及生产模式，我们先讲开发模式。</p>
-<p>让我们从node环境下执行node命令开始。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># serve in dev mode, with hot reload at localhost:8080</span></div><div class="line"><span class="variable">$npm</span> run dev</div></pre></td></tr></table></figure></p>
-<p>然后发生了什么？我们来看一张图。<br><img src="/assets/postImg/rundev.png" alt="rundev"></p>
-<p>执行dev属性对应的脚本：<code>node server</code>即<code>node server.js</code></p>
-<blockquote>
-<p>Tips:<a href="http://wangfuda.github.io">package.json解读</a></p>
-</blockquote>
-<p>执行<code>npm run dev</code>后，先去package.json中的scripts字段对应的对象，找到dev属性，并执行dev属性对应的脚本：<code>node server</code>即<code>node server.js</code><br>即执行server.js<br>server.js做了什么？一句话概括，最终监听本机8080端口，等待客户端请求。<br>然后就可以访问<a href="http://localhost:8080" target="_blank" rel="external">http://localhost:8080</a> ，看看效果了。<br><img src="/assets/postImg/demo.png" alt="demo"></p>
-<p>接下来我们从server.js开始一步一步，梳理整个项目的流程。</p>
-<p>先上一张整个基于代码文件执行流的流程框图，顺着文件执行流的藤，先摸摸瓜，看不太明白没关系，随着深入的了解每个文件的功能，回过头看就更清晰了。</p>
-<h2 id="server-js"><a href="#server-js" class="headerlink" title="server.js"></a>server.js</h2><p>找到真正驱动这个js运作的核心代码段：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">app.get(<span class="string">'*'</span>, isProd ? render : <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</div><div class="line">  readyPromise.then(<span class="function"><span class="params">()</span> =&gt;</span> render(req, res))</div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="keyword">const</span> port = process.env.PORT || <span class="number">8080</span></div><div class="line">app.listen(port, () =&gt; &#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">`server started at localhost:<span class="subst">$&#123;port&#125;</span>`</span>)</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<p>当敲下npm run dev后，server.js执行完，上面的代码启动一个服务并监听从 8080 端口进入的所有连接请求。 （注意：由于在此段代码前，express实例装载了一些路由中间件，那么这些中间件会优先处理，然后才会传递给此路由处理。其中有几个中间件也对路由请求做了处理，包括一些静态资源的处理。后面涉及到相关资源请求时会详细讲解）</p>
-<blockquote>
-<p>Tip</p>
-</blockquote>
-<pre><code>express.use(&apos;/&apos;) 只匹配 host+&apos;/&apos;这个路径
-
-express.use(&apos;/*&apos;) &apos;*&apos; 代表任何, 匹配&apos;/&apos;以及&apos;/&apos;后面加任何的路径
-
-当一个路径有多个匹配规则时，使用app.use，否则使用相应的app.method(get、post)  app.METHOD(PATH, HANDLER)
-</code></pre><p>此时在浏览器访问localhost:8080<br>请求经由express路由接收后，执行处理逻辑:<code>readyPromise.then(() =&gt; render(req, res))</code><br>我们可以看到，这里使用了es6的新特性，Promise。生产环境下，readyPromise的定义：调用了./build/setup-dev-server的默认方法</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// In development: setup the dev server with watch and hot-reload,</span></div><div class="line"><span class="comment">// and create a new renderer on bundle / index template update.</span></div><div class="line">readyPromise = <span class="built_in">require</span>(<span class="string">'./build/setup-dev-server'</span>)(app, (bundle, options) =&gt; &#123;</div><div class="line">  renderer = createRenderer(bundle, options)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-
+        
+          <a class="article-more-a" href="/2017/05/14/vue-hackernews-2.0-code-explain/#more">more >></a>
+        
       
 
       
@@ -221,6 +199,10 @@ express.use(&apos;/*&apos;) &apos;*&apos; 代表任何, 匹配&apos;/&apos;以�
       		 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">webpack</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">node</a>
         		</li>
       		
 		</ul>
@@ -252,7 +234,7 @@ express.use(&apos;/*&apos;) &apos;*&apos; 代表任何, 匹配&apos;/&apos;以�
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/05/13/vue-hackernews-2.0-code-detail/">vue-hackernews-2.0 code detail</a>
+      <a class="article-title" href="/2017/05/13/vue-hackernews-2.0-code-detail/">vue-hackernews-2.0 细节解读</a>
     </h1>
   
 
@@ -265,8 +247,11 @@ express.use(&apos;/*&apos;) &apos;*&apos; 代表任何, 匹配&apos;/&apos;以�
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文按章节分解了vue-hackernews-2.0开源项目中的一些知识点的细节，作为对<a href="http://wangfuda.github.io">项目源码解读</a>的细节原理解读补充。</p>
-<h2 id="1"><a href="#1" class="headerlink" title="1."></a>1.</h2>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文按源码文件分解解读了vue-hackernews-2.0开源项目中的一些知识点，作为对<a href="https://wangfuda.github.io/2017/05/14/vue-hackernews-2.0-code-explain/">项目源码解读</a>的细节补充。</p>
+<h2 id="package-json解读"><a href="#package-json解读" class="headerlink" title="package.json解读"></a>package.json解读</h2><p>该文件提供了四种命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># install dependencies</span></div><div class="line">npm install <span class="comment"># or yarn</span></div><div class="line"></div><div class="line"><span class="comment"># serve in dev mode, with hot reload at localhost:8080</span></div><div class="line">npm run dev</div><div class="line"></div><div class="line"><span class="comment"># build for production</span></div><div class="line">npm run build</div><div class="line"></div><div class="line"><span class="comment"># serve in production mode</span></div><div class="line">npm start</div></pre></td></tr></table></figure></p>
+        
+          <a class="article-more-a" href="/2017/05/13/vue-hackernews-2.0-code-detail/#more">more >></a>
+        
       
 
       
@@ -296,6 +281,10 @@ express.use(&apos;/*&apos;) &apos;*&apos; 代表任何, 匹配&apos;/&apos;以�
       		 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">webpack</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">node</a>
         		</li>
       		
 		</ul>
@@ -570,6 +559,10 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">webpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">node</a>
               </li>
             
             <div class="clearfix"></div>

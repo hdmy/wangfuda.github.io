@@ -6,30 +6,15 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://wangfuda.github.io">
-  <title>vue-hackernews-2.0 细节解读 | osan&#39;s blog</title>
+  <title>Tag: node | osan&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前言本文按源码文件分解解读了vue-hackernews-2.0开源项目中的一些知识点，作为对项目源码解读的细节补充。 package.json解读该文件提供了四种命令1234567891011# install dependenciesnpm install # or yarn# serve in dev mode, with hot reload at localhost:8080npm ru">
-<meta name="keywords" content="vue,Vuex,vue-router,ssr,webpack,node">
-<meta property="og:type" content="article">
-<meta property="og:title" content="vue-hackernews-2.0 细节解读">
-<meta property="og:url" content="http://wangfuda.github.io/2017/05/13/vue-hackernews-2.0-code-detail/index.html">
+  <meta name="keywords" content="android,前端,js,jquery,javascript,html5,开发者,程序猿,程序媛,极客,编程,代码,开源,IT网站,Developer,Programmer,Coder,Geek,html,css,css3,用户体验">
+<meta property="og:type" content="website">
+<meta property="og:title" content="osan&#39;s blog">
+<meta property="og:url" content="http://wangfuda.github.io/tags/node/index.html">
 <meta property="og:site_name" content="osan&#39;s blog">
-<meta property="og:description" content="前言本文按源码文件分解解读了vue-hackernews-2.0开源项目中的一些知识点，作为对项目源码解读的细节补充。 package.json解读该文件提供了四种命令1234567891011# install dependenciesnpm install # or yarn# serve in dev mode, with hot reload at localhost:8080npm ru">
-<meta property="og:image" content="http://wangfuda.github.io/assets/postImg/open_by_chrome.png">
-<meta property="og:image" content="http://wangfuda.github.io/assets/postImg/chrome_menu.png">
-<meta property="og:image" content="http://wangfuda.github.io/assets/postImg/chrome_menu_add_to_homescrren.png">
-<meta property="og:image" content="http://wangfuda.github.io/assets/postImg/chrome_add_to_homescrren_pwa.png">
-<meta property="og:image" content="http://wangfuda.github.io/assets/postImg/pwa_flash_white.png">
-<meta property="og:image" content="http://wangfuda.github.io/assets/postImg/pwa_homepage.png">
-<meta property="og:image" content="http://wangfuda.github.io/assets/postImg/pwa_flash.png">
-<meta property="og:image" content="http://wangfuda.github.io/assets/postImg/pwa_flash_green.png">
-<meta property="og:image" content="http://wangfuda.github.io/assets/postImg/pwa_flash_orange.png">
-<meta property="og:image" content="http://wangfuda.github.io/assets/postImg/pwa.gif">
-<meta property="og:updated_time" content="2017-05-13T12:47:02.229Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="vue-hackernews-2.0 细节解读">
-<meta name="twitter:description" content="前言本文按源码文件分解解读了vue-hackernews-2.0开源项目中的一些知识点，作为对项目源码解读的细节补充。 package.json解读该文件提供了四种命令1234567891011# install dependenciesnpm install # or yarn# serve in dev mode, with hot reload at localhost:8080npm ru">
-<meta name="twitter:image" content="http://wangfuda.github.io/assets/postImg/open_by_chrome.png">
+<meta name="twitter:title" content="osan&#39;s blog">
   
     <link rel="alternative" href="/atom.xml" title="osan&#39;s blog" type="application/atom+xml">
   
@@ -155,98 +140,36 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-vue-hackernews-2.0-code-detail" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      vue-hackernews-2.0 细节解读
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2017" class="archive-year">2017</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2017/05/14/vue-hackernews-2.0-code-explain/" class="archive-article-date">
+  	<time datetime="2017-05-14T00:55:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-14</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2017/05/14/vue-hackernews-2.0-code-explain/">vue-hackernews-2.0 源码解读</a>
     </h1>
   
 
-        
-        <a href="/2017/05/13/vue-hackernews-2.0-code-detail/" class="archive-article-date">
-  	<time datetime="2017-05-12T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文按源码文件分解解读了vue-hackernews-2.0开源项目中的一些知识点，作为对<a href="https://wangfuda.github.io/2017/05/14/vue-hackernews-2.0-code-explain/">项目源码解读</a>的细节补充。</p>
-<h2 id="package-json解读"><a href="#package-json解读" class="headerlink" title="package.json解读"></a>package.json解读</h2><p>该文件提供了四种命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># install dependencies</span></div><div class="line">npm install <span class="comment"># or yarn</span></div><div class="line"></div><div class="line"><span class="comment"># serve in dev mode, with hot reload at localhost:8080</span></div><div class="line">npm run dev</div><div class="line"></div><div class="line"><span class="comment"># build for production</span></div><div class="line">npm run build</div><div class="line"></div><div class="line"><span class="comment"># serve in production mode</span></div><div class="line">npm start</div></pre></td></tr></table></figure></p>
-<a id="more"></a>
-<p>执行<code>npm install</code><br>查找package.json中的dependencies和devDependencies字段，然后依次安装里面的模块。</p>
-<blockquote>
-<p>Tips:dependencies与devDependencies的区别<br>devDependencies下的模块，是开发环境需要的依赖项，主要是webpack打包，js语言转码(ES6代码转为ES5代码)等模块，这些模块不会被部署到生产环境。<br>dependencies下的模块，是生产环境需要的依赖项，即运行该包时所需要的依赖项。<br>这里可能有疑问，难道生产环境不需要webpack，js语言转码等模块吗？<br>答案是：需要，但这些模块不需要部署到生产环境，仅仅在生成生产环境所需的部署文件时被使用。</p>
-</blockquote>
-<p>执行<code>npm run dev</code><br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="string">"scripts"</span>: &#123;</div><div class="line"><span class="string">"dev"</span>: <span class="string">"node server"</span>,</div><div class="line"><span class="string">"start"</span>: <span class="string">"cross-env NODE_ENV=production node server"</span>,</div><div class="line"><span class="string">"build"</span>: <span class="string">"rimraf dist &amp;&amp; npm run build:client &amp;&amp; npm run build:server"</span>,</div><div class="line"><span class="string">"build:client"</span>: <span class="string">"cross-env NODE_ENV=production webpack --config build/webpack.client.config.js --progress --hide-modules"</span>,</div><div class="line"><span class="string">"build:server"</span>: <span class="string">"cross-env NODE_ENV=production webpack --config build/webpack.server.config.js --progress --hide-modules"</span></div><div class="line">&#125;,</div></pre></td></tr></table></figure></p>
-<p>查找package.json中的scripts字段对应的对象，找到dev属性，并执行dev属性对应的脚本：<code>node server</code>即<code>node server.js</code>，即执行server.js</p>
-<p>执行<code>npm run build</code><br>同样，找到build属性，并执行：<code>rimraf dist &amp;&amp; npm run build:client &amp;&amp; npm run build:server</code>，即删除dist目录并执行<code>npm run build:client</code>和<code>npm run build:server</code><br>对应功能是：设置环境变量为production，同时webpack根据config.js配置打包生产环境所需的部署文件</p>
-<p>执行<code>npm start</code><br>同样，找到start属性，并执行：<code>cross-env NODE_ENV=production node server</code>，即通过cross-env模块设置NODE_ENV环境变量为production，并执行<code>node server</code></p>
-<blockquote>
-<p>Tips:为什么是<code>npm start</code>而不是<code>npm run start</code>?<br>1.两者都可以，因为start为npm内置支持的命令，所以可以直接执行，参见<code>npm --help</code><br>2.其他三个命令都不是内置命令，需要经由<code>npm run</code>去执行。</p>
-</blockquote>
-<h2 id="index-template-html解读"><a href="#index-template-html解读" class="headerlink" title="index.template.html解读"></a>index.template.html解读</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"mobile-web-app-capable"</span> <span class="attr">content</span>=<span class="string">"yes"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"shortcut icon"</span> <span class="attr">sizes</span>=<span class="string">"48x48"</span> <span class="attr">href</span>=<span class="string">"/public/logo-48.png"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"theme-color"</span> <span class="attr">content</span>=<span class="string">"#f60"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"manifest"</span> <span class="attr">href</span>=<span class="string">"/manifest.json"</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>这段html代码功能：移动端浏览器适配及PWA适配</p>
-<blockquote>
-<p>Tips:<a href="https://developer.mozilla.org/en-US/Apps/Progressive" target="_blank" rel="external">PWA (progressive web apps)</a>-本质上仍然是个网站，但允许直接被放置到移动设备的桌面上（例如通过chrome浏览器的Add to HomeScreen），而不需要用户去app store下载安装应用才能使用，而这与一个网址的快捷方式完全不同，因为这种web app提供了一种接近原生app的用户体验。</p>
-</blockquote>
-<p>接下来我们在手机(Nexus 6P/Android 7.1)上分别示范下浏览器体验及PWA体验分别是怎样的。<br>浏览器体验：<br>在Chrome浏览器地址栏中输入项目地址，效果如下：</p>
-<p><img src="/assets/postImg/open_by_chrome.png" alt="open_by_chrome"></p>
-<p>PWA体验：<br>通过Chrome的<a href="https://developer.chrome.com/multidevice/android/installtohomescreen" target="_blank" rel="external">Add to Homescreen</a>功能，将该站点添加到桌面。效果如下：</p>
-<p><img src="/assets/postImg/chrome_menu.png" alt="chrome_menu">  <img src="/assets/postImg/chrome_menu_add_to_homescrren.png" alt="chrome_menu_add_to_homescrren">  <img src="/assets/postImg/chrome_add_to_homescrren_pwa.png" alt="chrome_add_to_homescrren_pwa">  </p>
-<p>点击桌面生成的应用图标后，可以看到具备了过渡启动图界面，而且进入后，不再是浏览器内看网站的体验，地址栏消失了，看起来像是一个原生应用。</p>
-<p><img src="/assets/postImg/pwa_flash_white.png" alt="pwa_flash_white">  <img src="/assets/postImg/pwa_homepage.png" alt="pwa_homepage"></p>
-<p>现在我们对manifest.json配置做一下改动，来学习几个参数的作用。以下三张电机图标后的启动图界面变更分别对应manifest.json的如下三种配置改动：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//1. 主题色：绿色 启动图背景色：白色</span></div><div class="line"><span class="string">"background_color"</span>: <span class="string">"#f2f3f5"</span>,</div><div class="line"><span class="string">"display"</span>: <span class="string">"standalone"</span>,</div><div class="line"><span class="string">"theme_color"</span>: <span class="string">"#48BB74"</span></div><div class="line"><span class="comment">//2. 主题色：绿色 启动图背景色：绿色</span></div><div class="line"><span class="string">"background_color"</span>: <span class="string">"#48BB74"</span>,</div><div class="line"><span class="string">"display"</span>: <span class="string">"standalone"</span>,</div><div class="line"><span class="string">"theme_color"</span>: <span class="string">"#48BB74"</span></div><div class="line"><span class="comment">//3. 主题色：橙色 启动图背景色：橙色</span></div><div class="line"><span class="string">"background_color"</span>: <span class="string">"#f60"</span>,</div><div class="line"><span class="string">"display"</span>: <span class="string">"standalone"</span>,</div><div class="line"><span class="string">"theme_color"</span>: <span class="string">"#f60"</span></div></pre></td></tr></table></figure></p>
-<p><img src="/assets/postImg/pwa_flash.png" alt="pwa_flash">  <img src="/assets/postImg/pwa_flash_green.png" alt="pwa_flash_green">  <img src="/assets/postImg/pwa_flash_orange.png" alt="pwa_flash_orange"></p>
-<blockquote>
-<p>Tips:<br>这里用到的<a href="https://developer.mozilla.org/en-US/docs/Web/Manifest" target="_blank" rel="external">manifest.json</a>不要与作为离线缓存的<a href="http://www.w3school.com.cn/html5/html_5_app_cache.asp" target="_blank" rel="external">manifest</a>混淆。</p>
-</blockquote>
-<p>最后来对比感受下<code>非PWA的百度站点</code>Vs<code>PWA站点的hackernews</code>在Add to HomeScreen后，体验上的差异。</p>
-<p><img src="/assets/postImg/pwa.gif" alt="pwa.gif"></p>
-<p>概括下主要的差异：<br>1.增加了同原生应用一样的启动图过渡界面<br>2.进入站点后，像是原生应用一样，没有了地址栏等浏览器体验的痕迹。<br>3.从点击图标开始到浏览页面，整体的体验上，PWA更接近原生应用。<br>注：PWA更多的特性这里并未应用，其实PWA可以做的更多。</p>
-
-      
-
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="/assets/img/alipay.png">
-                      <span class="reward-type">支付宝</span>
-                    </div>
-                    
-                    
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="/assets/img/weixinpay.png">
-                      <span class="reward-type">微信</span>
-                    </div>
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -278,98 +201,77 @@
 		</ul>
 	</div>
 
-      
+          
 
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://wangfuda.github.io/2017/05/13/vue-hackernews-2.0-code-detail/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
   
-<nav id="article-nav">
+    
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2017/05/13/vue-hackernews-2.0-code-detail/" class="archive-article-date">
+  	<time datetime="2017-05-12T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-13</time>
+</a>
+        </div>
+    	 
   
-    <a href="/2017/05/14/vue-hackernews-2.0-code-explain/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          vue-hackernews-2.0 源码解读
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2014/02/12/hello-world5/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">hello world ii</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-
-
-
-  
-  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2017/05/13/vue-hackernews-2.0-code-detail/">vue-hackernews-2.0 细节解读</a>
+    </h1>
   
 
+        <div class="article-info info-on-right">
+          
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">vue</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Vuex</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">vue-router</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">ssr</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">webpack</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">node</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+          
+
+        </div>
+        <div class="clearfix"></div>
+    </header>
+  </div>
+</article>
+  
+  
+    </div></section>
   
 
-  
+    
 
 
           </div>
@@ -392,9 +294,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
+		isPost: false,
 		isArchive: false,
-		isTag: false,
+		isTag: true,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",
