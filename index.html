@@ -158,11 +158,14 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文将对Vue的官方开源项目<code>vue-hackernews-2.0</code>进行解读。</p>
-<p>vue-hackernews项目，涉及知识点及技术栈非常全面，对于初学者来说，直接阅读该项目，极具挑战。这也是我写这个项目解读的初衷，希望为阅读该项目提供一些指引。</p>
-<h2 id="起步"><a href="#起步" class="headerlink" title="起步"></a>起步</h2><blockquote>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
 <p><a href="https://github.com/vuejs/vue-hackernews-2.0" target="_blank" rel="external">HackerNews</a>是基于 HN 的官方 firebase API 、Vue 2.0 、vue-router 和 vuex 来构建的，使用服务器端渲染。</p>
 </blockquote>
+<p>vue-hackernews项目，涉及知识点及技术栈非常全面，对于初学者来说，直接阅读该项目，极具挑战。这也是写这个项目解读的初衷，希望为阅读该项目提供一些指引。</p>
+<h2 id="结构概览"><a href="#结构概览" class="headerlink" title="结构概览"></a>结构概览</h2><p><img src="/assets/postImg/hn-architecture.png" alt="hn-architecture"></p>
+<p>项目结构图上显示，有两个入口文件，entry-server.js 和 entry-client.js， 分别是服务端渲染和客户端渲染的实现入口，webpack 将两个入口文件分别打包成给服务端用的 server bundle 和给客户端用的 client bundle. </p>
+<p>服务端：当 Node Server 收到来自Browser的请求后，会创建一个 Vue 渲染器 BundleRenderer，这个 bundleRenderer 会读取上面生成的 server bundle 文件（即entry-server.js），并且执行它，而 server bundle 实现了数据预取并返回已填充数据的Vue实例，接下来Vue渲染器内部就会将 Vue 实例渲染进 html 模板，最后把这个完整的html发送到浏览器。</p>
+<p>客户端：Browser收到HTML后，客户端加载了 client bundle(即entry-client.js) ，通过<code>app.$mount(&#39;#app&#39;)</code>挂载Vue实例到服务端渲染的 DOM 上,并会和服务端渲染的HTML 进行<a href="https://ssr.vuejs.org/en/hydration.html" target="_blank" rel="external">Hydration</a>（合并）</p>
         
           <a class="article-more-a" href="/2017/05/14/vue-hackernews-2.0-code-explain/#more">more >></a>
         
