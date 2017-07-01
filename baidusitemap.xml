@@ -4,6 +4,56 @@
 
     
   <url>
+    <loc>https://wangfuda.github.io/2017/07/01/Retrofit-2.3.0-code-explain/</loc>
+    <lastmod>2017-07-01T07:27:02.638Z</lastmod>
+    <data>
+        <display>
+        <title>Retrofit 2.3.0 源码解析</title>
+        <pubTime>2017-07-01T07:24:47.838Z</pubTime>
+        
+        <tag>Retrofit</tag>
+         
+        <tag>okhttp</tag>
+         
+        <tag>http</tag>
+         
+        <tag>restful api</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://wangfuda.github.io/2017/05/14/todo-mvp-dagger-code-explain/</loc>
+    <lastmod>2017-05-22T09:21:08.620Z</lastmod>
+    <data>
+        <display>
+        <title>todo-mvp-dagger 源码解读</title>
+        <pubTime>2017-05-14T00:55:00.000Z</pubTime>
+        
+        <tag>vue</tag>
+         
+        <tag>Vuex</tag>
+         
+        <tag>vue-router</tag>
+         
+        <tag>ssr</tag>
+         
+        <tag>webpack</tag>
+         
+        <tag>node</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://wangfuda.github.io/2017/05/14/vue-hackernews-2.0-code-explain/</loc>
     <lastmod>2017-05-14T09:48:44.249Z</lastmod>
     <data>

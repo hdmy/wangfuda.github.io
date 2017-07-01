@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://wangfuda.github.io/2017/07/01/Retrofit-2.3.0-code-explain/</loc>
+    
+    <lastmod>2017-07-01T07:27:02.638Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wangfuda.github.io/2017/05/14/todo-mvp-dagger-code-explain/</loc>
+    
+    <lastmod>2017-05-22T09:21:08.620Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://wangfuda.github.io/2017/05/14/vue-hackernews-2.0-code-explain/</loc>
     
     <lastmod>2017-05-14T09:48:44.249Z</lastmod>

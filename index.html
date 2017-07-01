@@ -138,6 +138,105 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Retrofit-2.3.0-code-explain" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/01/Retrofit-2.3.0-code-explain/">Retrofit 2.3.0 源码解析</a>
+    </h1>
+  
+
+        
+        <a href="/2017/07/01/Retrofit-2.3.0-code-explain/" class="archive-article-date">
+  	<time datetime="2017-07-01T07:24:47.838Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-01</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p><a href="http://square.github.io/retrofit/" target="_blank" rel="external">Retrofit</a> A type-safe HTTP client for Android and Java</p>
+</blockquote>
+<p>Retrofit,是一个基于http请求库二次封装的HTTP客户端，将 REST API 转换为 Java 接口。</p>
+<p>基于注解，进一步解放了生产力，使得http请求就像调用方法一样简单，如丝般顺滑。</p>
+<h2 id="结构概览"><a href="#结构概览" class="headerlink" title="结构概览"></a>结构概览</h2><p><img src="/assets/postImg/retrofit/architecture.png" alt="architecture"></p>
+<p>项目结构整体分四个部分，Builder -&gt; Proxy -&gt; Invocation -&gt; RawCall<br>这里我们把基于Retrofit的HTTP通信当做是一次邮递信件。</p>
+<blockquote>
+<p>邮递信件</p>
+</blockquote>
+<ul>
+<li>信封：当我们准备好信件之后，要在信封上写邮寄地址，收件人，可能还要备注勿折（是的，我暴露了我的年龄，如今很多人可能都没有过写信寄信的体验）。</li>
+<li>邮递员：然后我们亲自去送信吗？No，我们把信投入邮箱，交给邮递员代为送信就行了。</li>
+<li>邮局：然后邮递员会根据信封上的信息对信件进行分拣，寄信或收信均经由邮局统一处理</li>
+<li>邮寄方式：最后就是交给运送单位送信了，空运或是陆运等。</li>
+</ul>
+<blockquote>
+<p>基于Retrofit的HTTP通信</p>
+</blockquote>
+<ul>
+<li>Builder：当我们准备好数据之后，要指定服务端的通信地址，处理接口地址，请求方法，可能还要备注是否有body、是否是multipart。</li>
+<li>Proxy:然后通信的事交给代理去做，代理会帮你做好一系列的工作，比如注解解析，Call适配，以及请求调度等</li>
+<li>Invocation：这里负责调度同步或异步请求，请求装配和响应解析</li>
+<li>RawCall:这里就是具体的通信工具了，可选Okhttp等框架来做具体的Http通信。</li>
+</ul>
+<p>来看看寄信和Retrofit之间的对比：<br><img src="/assets/postImg/retrofit/arch_flow.png" alt="arch_flow"></p>
+<p>大概过程就是这样，邮递员会把信送出去，并在适合的时机把对方的回信取回来送给你，当然如果你的信件是表白情书，那也很可能会收不到回信的，毕竟表白成功的概率要看人品的。不要伤心，HTTP通信也会有时候收不到服务端的回信噢。</p>
+        
+          <a class="article-more-a" href="/2017/07/01/Retrofit-2.3.0-code-explain/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Retrofit</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">okhttp</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">http</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">restful api</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/07/01/Retrofit-2.3.0-code-explain/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+  
     <article id="post-vue-hackernews-2.0-code-explain" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -212,6 +311,89 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/05/14/vue-hackernews-2.0-code-explain/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+  
+    <article id="post-todo-mvp-dagger-code-explain" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/14/todo-mvp-dagger-code-explain/">todo-mvp-dagger 源码解读</a>
+    </h1>
+  
+
+        
+        <a href="/2017/05/14/todo-mvp-dagger-code-explain/" class="archive-article-date">
+  	<time datetime="2017-05-14T00:55:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-14</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p><a href="https://github.com/vuejs/vue-hackernews-2.0" target="_blank" rel="external">HackerNews</a>是基于 HN 的官方 firebase API 、Vue 2.0 、vue-router 和 vuex 来构建的，使用服务器端渲染。</p>
+</blockquote>
+<p>vue-hackernews项目，涉及知识点及技术栈非常全面，对于初学者来说，直接阅读该项目，极具挑战。这也是写这个项目解读的初衷，希望为阅读该项目提供一些指引。</p>
+<h2 id="结构概览"><a href="#结构概览" class="headerlink" title="结构概览"></a>结构概览</h2><p><img src="/assets/postImg/hn-architecture.png" alt="hn-architecture"></p>
+<h2 id="目录概览"><a href="#目录概览" class="headerlink" title="目录概览"></a>目录概览</h2>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">vue</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Vuex</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">vue-router</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">ssr</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">webpack</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">node</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/05/14/todo-mvp-dagger-code-explain/">展开全文 >></a>
         </p>
       
 
@@ -398,6 +580,22 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Retrofit</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">okhttp</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">http</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">restful api</a>
+              </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">vue</a>

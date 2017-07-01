@@ -6,15 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://wangfuda.github.io">
-  <title>Archives | osan&#39;s blog</title>
+  <title>Retrofit 2.3.0 源码解析 | osan&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="keywords" content="android,vue,vuex,vue-router,vuejs,webpack,ssr,node,nodejs,前端,js,jquery,javascript,html5,开发者,程序猿,程序媛,极客,编程,代码,开源,IT网站,Developer,Programmer,Coder,Geek,html,css,css3,用户体验">
-<meta property="og:type" content="website">
-<meta property="og:title" content="osan&#39;s blog">
-<meta property="og:url" content="https://wangfuda.github.io/archives/index.html">
+  <meta name="description" content="前言 Retrofit A type-safe HTTP client for Android and Java  Retrofit,是一个基于http请求库二次封装的HTTP客户端，将 REST API 转换为 Java 接口。 基于注解，进一步解放了生产力，使得http请求就像调用方法一样简单，如丝般顺滑。 结构概览 项目结构整体分四个部分，Builder -&amp;gt; Proxy -&amp;gt;">
+<meta name="keywords" content="Retrofit,okhttp,http,restful api">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Retrofit 2.3.0 源码解析">
+<meta property="og:url" content="https://wangfuda.github.io/2017/07/01/Retrofit-2.3.0-code-explain/index.html">
 <meta property="og:site_name" content="osan&#39;s blog">
+<meta property="og:description" content="前言 Retrofit A type-safe HTTP client for Android and Java  Retrofit,是一个基于http请求库二次封装的HTTP客户端，将 REST API 转换为 Java 接口。 基于注解，进一步解放了生产力，使得http请求就像调用方法一样简单，如丝般顺滑。 结构概览 项目结构整体分四个部分，Builder -&amp;gt; Proxy -&amp;gt;">
+<meta property="og:image" content="https://wangfuda.github.io/assets/postImg/retrofit/architecture.png">
+<meta property="og:image" content="https://wangfuda.github.io/assets/postImg/retrofit/arch_flow.png">
+<meta property="og:updated_time" content="2017-07-01T07:27:02.638Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="osan&#39;s blog">
+<meta name="twitter:title" content="Retrofit 2.3.0 源码解析">
+<meta name="twitter:description" content="前言 Retrofit A type-safe HTTP client for Android and Java  Retrofit,是一个基于http请求库二次封装的HTTP客户端，将 REST API 转换为 Java 接口。 基于注解，进一步解放了生产力，使得http请求就像调用方法一样简单，如丝般顺滑。 结构概览 项目结构整体分四个部分，Builder -&amp;gt; Proxy -&amp;gt;">
+<meta name="twitter:image" content="https://wangfuda.github.io/assets/postImg/retrofit/architecture.png">
   
     <link rel="alternative" href="/atom.xml" title="osan&#39;s blog" type="application/atom+xml">
   
@@ -136,36 +143,134 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Retrofit-2.3.0-code-explain" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/01/Retrofit-2.3.0-code-explain/" class="archive-article-date">
-  	<time datetime="2017-07-01T07:24:47.838Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-01</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/07/01/Retrofit-2.3.0-code-explain/">Retrofit 2.3.0 源码解析</a>
+    <h1 class="article-title" itemprop="name">
+      Retrofit 2.3.0 源码解析
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2017/07/01/Retrofit-2.3.0-code-explain/" class="archive-article-date">
+  	<time datetime="2017-07-01T07:24:47.838Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-01</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p><a href="http://square.github.io/retrofit/" target="_blank" rel="external">Retrofit</a> A type-safe HTTP client for Android and Java</p>
+</blockquote>
+<p>Retrofit,是一个基于http请求库二次封装的HTTP客户端，将 REST API 转换为 Java 接口。</p>
+<p>基于注解，进一步解放了生产力，使得http请求就像调用方法一样简单，如丝般顺滑。</p>
+<h2 id="结构概览"><a href="#结构概览" class="headerlink" title="结构概览"></a>结构概览</h2><p><img src="/assets/postImg/retrofit/architecture.png" alt="architecture"></p>
+<p>项目结构整体分四个部分，Builder -&gt; Proxy -&gt; Invocation -&gt; RawCall<br>这里我们把基于Retrofit的HTTP通信当做是一次邮递信件。</p>
+<blockquote>
+<p>邮递信件</p>
+</blockquote>
+<ul>
+<li>信封：当我们准备好信件之后，要在信封上写邮寄地址，收件人，可能还要备注勿折（是的，我暴露了我的年龄，如今很多人可能都没有过写信寄信的体验）。</li>
+<li>邮递员：然后我们亲自去送信吗？No，我们把信投入邮箱，交给邮递员代为送信就行了。</li>
+<li>邮局：然后邮递员会根据信封上的信息对信件进行分拣，寄信或收信均经由邮局统一处理</li>
+<li>邮寄方式：最后就是交给运送单位送信了，空运或是陆运等。</li>
+</ul>
+<blockquote>
+<p>基于Retrofit的HTTP通信</p>
+</blockquote>
+<ul>
+<li>Builder：当我们准备好数据之后，要指定服务端的通信地址，处理接口地址，请求方法，可能还要备注是否有body、是否是multipart。</li>
+<li>Proxy:然后通信的事交给代理去做，代理会帮你做好一系列的工作，比如注解解析，Call适配，以及请求调度等</li>
+<li>Invocation：这里负责调度同步或异步请求，请求装配和响应解析</li>
+<li>RawCall:这里就是具体的通信工具了，可选Okhttp等框架来做具体的Http通信。</li>
+</ul>
+<p>来看看寄信和Retrofit之间的对比：<br><img src="/assets/postImg/retrofit/arch_flow.png" alt="arch_flow"></p>
+<p>大概过程就是这样，邮递员会把信送出去，并在适合的时机把对方的回信取回来送给你，当然如果你的信件是表白情书，那也很可能会收不到回信的，毕竟表白成功的概率要看人品的。不要伤心，HTTP通信也会有时候收不到服务端的回信噢。</p>
+<a id="more"></a>
+<h2 id="目录概览"><a href="#目录概览" class="headerlink" title="目录概览"></a>目录概览</h2><p><a href="http://square.github.io/retrofit/2.x/retrofit/" target="_blank" rel="external">官方 Javadoc</a><br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="string">│</span>  <span class="string">BuiltInConverters.java</span>					<span class="comment"># 内建Converter</span></div><div class="line"><span class="string">│</span>  <span class="string">Call.java</span>							<span class="comment"># 发送请求接收响应的retrofit方法调用</span></div><div class="line"><span class="string">│</span>  <span class="string">CallAdapter.java</span>						<span class="comment"># 适配Call的响应类型，将默认响应类型R转换为类型T</span></div><div class="line"><span class="string">│</span>  <span class="string">Callback.java</span>						<span class="comment"># 返回服务端或离线请求的响应体</span></div><div class="line"><span class="string">│</span>  <span class="string">Converter.java</span>						<span class="comment"># HTTP交互中，转换对象为数据 或 从数据转换为对象</span></div><div class="line"><span class="string">│</span>  <span class="string">DefaultCallAdapterFactory.java</span>				<span class="comment"># 默认CallAdapter工厂</span></div><div class="line"><span class="string">│</span>  <span class="string">ExecutorCallAdapterFactory.java</span>				<span class="comment"># http请求执行器工厂</span></div><div class="line"><span class="string">│</span>  <span class="string">HttpException.java</span>						<span class="comment"># 非2xx HTTP响应的异常处理</span></div><div class="line"><span class="string">│</span>  <span class="string">OkHttpCall.java</span>						<span class="comment"># 真正调用OkHttp3发送Http请求的类</span></div><div class="line"><span class="string">│</span>  <span class="string">package-info.java</span>						<span class="comment"># 包描述</span></div><div class="line"><span class="string">│</span>  <span class="string">ParameterHandler.java</span>					<span class="comment"># 参数注解解析器</span></div><div class="line"><span class="string">│</span>  <span class="string">Platform.java</span>						<span class="comment"># 平台适配(Java/Android)</span></div><div class="line"><span class="string">│</span>  <span class="string">RequestBuilder.java</span>						<span class="comment"># 请求拼装</span></div><div class="line"><span class="string">│</span>  <span class="string">Response.java</span>						<span class="comment"># 原汁原味的HTTP 响应体，所谓 T body</span></div><div class="line"><span class="string">│</span>  <span class="string">Retrofit.java</span>						<span class="comment"># 组装工厂，基于建造者模式拼装自定义HTTP交互所需的组件，并作为总调度暴露接口</span></div><div class="line"><span class="string">│</span>  <span class="string">ServiceMethod.java</span>						<span class="comment"># 框架核心处理类，注解解析器调度，生成请求(包含api url、path、http请求方法、请</span></div><div class="line">								<span class="comment"># 求头、是否是multipart等等),并返回用于发起http请求的Call对象</span></div><div class="line"><span class="string">│</span>  <span class="string">Utils.java</span>							<span class="comment"># 工具类</span></div><div class="line"><span class="string">│</span>  </div><div class="line"><span class="string">└─http</span>								<span class="comment"># http注解定义 （直接引用了Javadoc中的描述，均为提高生产力的注解）</span></div><div class="line"></div><div class="line">        <span class="string">Body.java</span>						<span class="comment"># control the request body of a POST/PUT request</span></div><div class="line">        <span class="string">DELETE.java</span>						<span class="comment"># Make a DELETE request</span></div><div class="line">        <span class="string">Field.java</span>						<span class="comment"># Named pair for a form-encoded request</span></div><div class="line">        <span class="string">FieldMap.java</span>						<span class="comment"># Named key/value pairs for a form-encoded request</span></div><div class="line">        <span class="string">FormUrlEncoded.java</span>					<span class="comment"># Denotes that the request body will use form URL encoding</span></div><div class="line">        <span class="string">GET.java</span>						<span class="comment"># Make a GET request</span></div><div class="line">        <span class="string">HEAD.java</span>						<span class="comment"># Make a HEAD request</span></div><div class="line">        <span class="string">Header.java</span>						<span class="comment"># Replaces the header with the value of its target</span></div><div class="line">        <span class="string">HeaderMap.java</span>						<span class="comment"># Adds headers specified in the Map</span></div><div class="line">        <span class="string">Headers.java</span>						<span class="comment"># Adds headers literally supplied in the value</span></div><div class="line">        <span class="string">HTTP.java</span>						<span class="comment"># Use a custom HTTP verb for a request</span></div><div class="line">        <span class="string">Multipart.java</span>						<span class="comment"># Denotes that the request body is multi-part</span></div><div class="line">        <span class="string">OPTIONS.java</span>						<span class="comment"># Make an OPTIONS request</span></div><div class="line">        <span class="string">package-info.java</span>					<span class="comment"># Package description</span></div><div class="line">        <span class="string">Part.java</span>						<span class="comment"># Denotes a single part of a multi-part request</span></div><div class="line">        <span class="string">PartMap.java</span>						<span class="comment"># Denotes name and value parts of a multi-part request</span></div><div class="line">        <span class="string">PATCH.java</span>						<span class="comment"># Make a PATCH request</span></div><div class="line">        <span class="string">Path.java</span>						<span class="comment"># Named replacement in a URL path segment</span></div><div class="line">        <span class="string">POST.java</span>						<span class="comment"># Make a POST request</span></div><div class="line">        <span class="string">PUT.java</span>						<span class="comment"># Make a PUT request</span></div><div class="line">        <span class="string">Query.java</span>						<span class="comment"># Query parameter appended to the URL</span></div><div class="line">        <span class="string">QueryMap.java</span>						<span class="comment"># Query parameter keys and values appended to the URL</span></div><div class="line">        <span class="string">QueryName.java</span>						<span class="comment"># Query parameter appended to the URL that has no value</span></div><div class="line">        <span class="string">Streaming.java</span>						<span class="comment"># Treat the response body on methods returning Response as is, i.e. </span></div><div class="line">								<span class="comment"># without converting body() to byte[]</span></div><div class="line">        <span class="string">Url.java</span>						<span class="comment"># URL resolved against the base URL</span></div></pre></td></tr></table></figure></p>
+<h2 id="Retrofit的基本用法"><a href="#Retrofit的基本用法" class="headerlink" title="Retrofit的基本用法"></a>Retrofit的基本用法</h2><p>让我们从基本用法开始，先看如何使用，顺着这个藤，摸摸如何实现的瓜。</p>
+<p>用 Java 接口的方式定义一个HTTP API.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">GitHubService</span> </span>&#123;</div><div class="line">  <span class="meta">@GET</span>(<span class="string">"users/&#123;user&#125;/repos"</span>)</div><div class="line">  Call&lt;List&lt;Repo&gt;&gt; listRepos(<span class="meta">@Path</span>(<span class="string">"user"</span>) String user);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>Retrofit 类生成一个 GitHubService 接口的实现实例.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Retrofit retrofit = <span class="keyword">new</span> Retrofit.Builder()</div><div class="line">    .baseUrl(<span class="string">"https://api.github.com/"</span>)</div><div class="line">    .build();</div><div class="line"></div><div class="line">GitHubService service = retrofit.create(GitHubService.class);</div></pre></td></tr></table></figure></p>
+<p>Each Call from the created GitHubService can make a synchronous or asynchronous HTTP request to the remote webserver.<br>GitHubService实例的每一个方法调用都支持同步或异步HTTP请求.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Call&lt;List&lt;Repo&gt;&gt; repos = service.listRepos(<span class="string">"octocat"</span>);</div></pre></td></tr></table></figure></p>
+<h2 id="Retrofit的源码解析"><a href="#Retrofit的源码解析" class="headerlink" title="Retrofit的源码解析"></a>Retrofit的源码解析</h2><p>首先我们心里要有个概念，Retrofit的核心关键词：注解、动态代理、转换器、适配器</p>
+<p>Retrofit就是基于这四个关键词搭建起来的充分解耦，灵活，可插拔的优秀框架。</p>
+<p>下面我们结合Retrofit设计图流程来解读代码。 还记得流程吗？ Builder -&gt; Proxy -&gt; Invocation -&gt; RawCall </p>
+<blockquote>
+<p>Flow - Builder</p>
+</blockquote>
+<p><code>Retrofit.Builder()
+    .baseUrl(&quot;https://api.github.com/&quot;)
+    ...
+    .build();</code></p>
+<blockquote>
+<p><a href="https://en.wikipedia.org/wiki/Builder_pattern" target="_blank" rel="external">Tips.设计模式之Builder模式</a><br>基于Builder模式,装配一系列零部件，比如base请求地址，gson转换器，Rxjava适配器，HTTP请求client（比如装配OKHTTP）等。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Retrofit.java -&gt; class Builder</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> Retrofit <span class="title">build</span><span class="params">()</span> </span>&#123;</div><div class="line">      </div><div class="line">      ...</div><div class="line"></div><div class="line">      <span class="keyword">return</span> <span class="keyword">new</span> Retrofit(callFactory, baseUrl, converterFactories, adapterFactories,</div><div class="line">          callbackExecutor, validateEagerly);</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+</blockquote>
+<p>返回一个装配了 callFactory，converterFactories，adapterFactories，callbackExecutor 和指定了 baseUrl 的 Retrofit 实例。<br>注：<code>validateEagerly</code>，用于指定是否预先解析注解，加速接口访问效率。</p>
+<blockquote>
+<p>Flow - Proxy</p>
+</blockquote>
+<p><code>GitHubService service = retrofit.create(GitHubService.class);</code><br>我们知道，Java 接口是不可以直接 new 实例的，那么这个 create 方法看起来又像是返回了一个 GitHubService 接口类型的实现实例，这是怎么回事呢？我们来看下 create 的实现。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Retrofit.java</span></div><div class="line"></div><div class="line">  <span class="keyword">public</span> &lt;T&gt; <span class="function">T <span class="title">create</span><span class="params">(<span class="keyword">final</span> Class&lt;T&gt; service)</span> </span>&#123;</div><div class="line">    Utils.validateServiceInterface(service);</div><div class="line">    <span class="keyword">if</span> (validateEagerly) &#123;</div><div class="line">      eagerlyValidateMethods(service);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> (T) Proxy.newProxyInstance(service.getClassLoader(), <span class="keyword">new</span> Class&lt;?&gt;[] &#123; service &#125;,</div><div class="line">        <span class="keyword">new</span> InvocationHandler() &#123;</div><div class="line">          <span class="keyword">private</span> <span class="keyword">final</span> Platform platform = Platform.get();</div><div class="line"></div><div class="line">          <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, @Nullable Object[] args)</span></span></div><div class="line">              <span class="keyword">throws</span> Throwable &#123;</div><div class="line">            <span class="comment">// If the method is a method from Object then defer to normal invocation.</span></div><div class="line">            <span class="keyword">if</span> (method.getDeclaringClass() == Object.class) &#123;</div><div class="line">              <span class="keyword">return</span> method.invoke(<span class="keyword">this</span>, args);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> (platform.isDefaultMethod(method)) &#123;</div><div class="line">              <span class="keyword">return</span> platform.invokeDefaultMethod(method, service, proxy, args);</div><div class="line">            &#125;</div><div class="line">            ServiceMethod&lt;Object, Object&gt; serviceMethod =</div><div class="line">                (ServiceMethod&lt;Object, Object&gt;) loadServiceMethod(method);</div><div class="line">            OkHttpCall&lt;Object&gt; okHttpCall = <span class="keyword">new</span> OkHttpCall&lt;&gt;(serviceMethod, args);</div><div class="line">            <span class="keyword">return</span> serviceMethod.callAdapter.adapt(okHttpCall);</div><div class="line">          &#125;</div><div class="line">        &#125;);</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
+<p>create方法主要就一个return,返回了一个Proxy.newProxyInstance生成的动态代理对象。原来这里是通过动态代理的方式生成了 GitHubService 接口的代理实例，那么后续 GitHubService 接口的方法都可以通过代理去调用了。<br>为什么用动态代理？<br>这是Retrofit设计的核心思路，基于动态代理，可以为后续在调用 GitHubService 接口的相关方法时先拦截下来，做完一系列工作后（即注解解析，请求转换，适配等），再去完成方法本尊想要完成的工作，这就是动态代理的魅力。</p>
+<blockquote>
+<p>Tips.<a href="http://www.cnblogs.com/xiaoluo501395377/p/3383130.html" target="_blank" rel="external">动态代理</a></p>
+</blockquote>
+<p><code>Call&lt;List&lt;Repo&gt;&gt; repos = service.listRepos(&quot;octocat&quot;);</code><br>通过代理对象 service 调用接口方法 listRepos ，会被动态代理拦截，调用Proxy.newProxyInstance方法中的InvocationHandler对象的 invoke 方法。</p>
+<blockquote>
+<p>invoke中主要由ServiceMethod和CallAdapter完成了两件事：</p>
+</blockquote>
+<ul>
+<li>请求方法的注解解析</li>
+<li>适配Call的响应类型，将默认响应类型R转换为类型T</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// ServiceMethod.java</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> ServiceMethod <span class="title">build</span><span class="params">()</span> </span>&#123;</div><div class="line">      callAdapter = createCallAdapter();</div><div class="line">      responseType = callAdapter.responseType();</div><div class="line">      </div><div class="line">	  ...</div><div class="line"></div><div class="line">      responseConverter = createResponseConverter();</div><div class="line"></div><div class="line">      <span class="keyword">for</span> (Annotation annotation : methodAnnotations) &#123;</div><div class="line">        parseMethodAnnotation(annotation);</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      ...</div><div class="line"></div><div class="line">      <span class="keyword">int</span> parameterCount = parameterAnnotationsArray.length;</div><div class="line">      parameterHandlers = <span class="keyword">new</span> ParameterHandler&lt;?&gt;[parameterCount];</div><div class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> p = <span class="number">0</span>; p &lt; parameterCount; p++) &#123;</div><div class="line">        Type parameterType = parameterTypes[p];</div><div class="line">        </div><div class="line">        ...</div><div class="line"></div><div class="line">        Annotation[] parameterAnnotations = parameterAnnotationsArray[p];</div><div class="line"></div><div class="line">        ...</div><div class="line"></div><div class="line">        parameterHandlers[p] = parseParameter(p, parameterType, parameterAnnotations);</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      ...</div><div class="line"></div><div class="line">      <span class="keyword">return</span> <span class="keyword">new</span> ServiceMethod&lt;&gt;(<span class="keyword">this</span>);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div></pre></td></tr></table></figure>
+<blockquote>
+<p>Flow - Invocation</p>
+<p>Flow - RawCall</p>
+</blockquote>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/img/alipay.png">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/img/weixinpay.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -189,193 +294,89 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=https://wangfuda.github.io/2017/07/01/Retrofit-2.3.0-code-explain/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/05/14/vue-hackernews-2.0-code-explain/" class="archive-article-date">
-  	<time datetime="2017-05-14T00:55:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-14</time>
-</a>
-        </div>
-    	 
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/05/14/vue-hackernews-2.0-code-explain/">vue-hackernews-2.0 源码解读</a>
-    </h1>
+  
+    <a href="/2017/05/14/vue-hackernews-2.0-code-explain/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">vue-hackernews-2.0 源码解读</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+  
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">vue</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Vuex</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">vue-router</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">ssr</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">webpack</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">node</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/05/14/todo-mvp-dagger-code-explain/" class="archive-article-date">
-  	<time datetime="2017-05-14T00:55:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/05/14/todo-mvp-dagger-code-explain/">todo-mvp-dagger 源码解读</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">vue</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Vuex</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">vue-router</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">ssr</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">webpack</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">node</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/05/13/vue-hackernews-2.0-code-detail/" class="archive-article-date">
-  	<time datetime="2017-05-12T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-13</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/05/13/vue-hackernews-2.0-code-detail/">vue-hackernews-2.0 细节解读</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">vue</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Vuex</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">vue-router</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">ssr</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">webpack</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">node</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -398,8 +399,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
