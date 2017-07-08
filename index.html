@@ -286,6 +286,138 @@
 
 
   
+    <article id="post-nebula_gpu_monitor_optimize" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/14/nebula_gpu_monitor_optimize/">自定义View星空动画的内存占用/GPU渲染性能优化手记</a>
+    </h1>
+  
+
+        
+        <a href="/2017/05/14/nebula_gpu_monitor_optimize/" class="archive-article-date">
+  	<time datetime="2017-05-14T00:55:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-14</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>这是一个关于星空的自定义动画Sample,源码请戳 <a href="https://github.com/wangfuda/nebula" target="_blank" rel="external">https://github.com/wangfuda/nebula</a></p>
+</blockquote>
+<p>Gif图：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1889129-5ec7709da5e2649b.gif?imageMogr2/auto-orient/strip" alt="nebula.gif"><br>本文将重点讲解在本例自定义动画编程中，如何结合 Android Studio 的 Memory Monitor，GPU monitor 按步骤做内存优化，GPU渲染优化。<br>关于动画实现部分，源码已提交至github，请手动阅读理解，注释很详尽。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1889129-a9676a7b3d0cfa7a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="3.png"></p>
+<h2 id="内存占用优化"><a href="#内存占用优化" class="headerlink" title="内存占用优化"></a>内存占用优化</h2><h5 id="内存占用优化-步骤一：移动图片资源至大分辨率目录下，比如xxxhdpi"><a href="#内存占用优化-步骤一：移动图片资源至大分辨率目录下，比如xxxhdpi" class="headerlink" title="内存占用优化 步骤一：移动图片资源至大分辨率目录下，比如xxxhdpi."></a>内存占用优化 步骤一：移动图片资源至大分辨率目录下，比如xxxhdpi.</h5><p>先来彪一张直接撸完代码无任何优化的情况下，内存的占用图：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1889129-2d0ed671b2b54ec7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="monitor_1_img_hdpi.png"><br>内存占用246M，不能忍。<br>问：为什么这么大？<br>答：因为资源图都是高清1K分辨率的图。<br>问：为什么这么大？<br>答：。。。<br>那么我们算一下这246M内存占用是怎么来的吧。<br>先来一条图片内存占用计算公式，公式溯源请自行去看源码：BitmapFactory.Java &amp; BitmapFactory.cpp<br>scaledWidth = int( Width <em> targetDensity / density + 0.5)<br>scaledHeight = int( Height </em> targetDensity / density + 0.5)<br>memory = scaledWidth <em> scaledHeight </em> 4<br>其中参数定义如下：</p>
+<blockquote>
+<p>Width：图片宽<br>Height：图片高<br>targetDensity：加载图片的目标手机的 density，这个值的来源是 DisplayMetrics 的 densityDpi，如果是小米note那么这个数值就是480，详见下图关于targetDensity的参数细节。<br>density：decodingBitmap 的 density，这个值跟这张图片的放置的目录有关（比如 hdpi 是240，xxhdpi 是480）<br>每像素字节数：ARGB8888格式的图片，每像素占用 4 Byte，而 RGB565则是 2 Byte。</p>
+</blockquote>
+<p><img src="http://upload-images.jianshu.io/upload_images/1889129-11211320242fa8ad.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="targetDensity.png"></p>
+<p>对于一张1080x1920的图来说，放置在hdpi目录，并在小米note手机上（分辨率1080x1920,targetDensity为480），而且均默认以ARGB8888格式加载。<br>内存占用计算公式：<br>scaledWidth = int( 1080<em> 480/ 240+ 0.5) =2160<br>scaledHeight = int( 1920</em> 480/ 240+ 0.5)=3840<br>memory = scaledWidth <em> scaledHeight </em> 4=2160<em>3840</em>4 = 33177600 = 33.17M</p>
+<p>一张背景图就占用33M,这个分辨率的图，我们res下一共有7张，还有其他几张小图。这回可以回答为什么占用245M的内存了。</p>
+<p>那么内存占用的优化方案也就有了，我们尽量把图片资源放到大分辨率目录下，比如xxxhdpi（当然还有个前提，你的图片分辨率也确实符合大分辨率，否则会出现在大分辨率设备上，显示不全的问题）。</p>
+<p>我们来看看把图片资源移动到xxxhdpi目录下后，内存占用情况：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1889129-104cb4bcc3c4c393.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="monitor_2_img_move_to_xxxhdpi.png"></p>
+<p>把图片资源从hdpi移动到xxx-hdpi，从246M降低到56M,减少了190M，Bingo!</p>
+<h5 id="内存占用优化-步骤-二：压缩png图片大小（包体大小会减小，但与内存占用情况无关）"><a href="#内存占用优化-步骤-二：压缩png图片大小（包体大小会减小，但与内存占用情况无关）" class="headerlink" title="内存占用优化 步骤 二：压缩png图片大小（包体大小会减小，但与内存占用情况无关）"></a>内存占用优化 步骤 二：压缩png图片大小（包体大小会减小，但与内存占用情况无关）</h5><p>初始单张图片大小都接近2M，经过<a href="https://tinypng.com/" target="_blank" rel="external">tinypng</a>优化后，压缩率达到70-80%，非常完美，包体大小减小了，不过，经过我们步骤一的科学计算，这个优化并不会影响图片在内存中的占用。</p>
+<h5 id="内存占用优化-步骤-三：动画完成且不再循环展示的部分，相关bitmap释放"><a href="#内存占用优化-步骤-三：动画完成且不再循环展示的部分，相关bitmap释放" class="headerlink" title="内存占用优化 步骤 三：动画完成且不再循环展示的部分，相关bitmap释放"></a>内存占用优化 步骤 三：动画完成且不再循环展示的部分，相关bitmap释放</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">void</span> releaseBitmap &#123;</div><div class="line">  ...</div><div class="line">  bitmap.recycle();</div><div class="line">  ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>来看下bitmap释放后的memory monitor图：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1889129-6b1449a14902af41.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="monitor_3_release_bitmap.png"></p>
+<p>内存占用降低到36M,减少了20M</p>
+<h5 id="内存占用优化-步骤-四：无用对象释放，非透明背景图片采用RGB-565颜色格式，并且将图片的inSampleSize设置为2"><a href="#内存占用优化-步骤-四：无用对象释放，非透明背景图片采用RGB-565颜色格式，并且将图片的inSampleSize设置为2" class="headerlink" title="内存占用优化 步骤 四：无用对象释放，非透明背景图片采用RGB_565颜色格式，并且将图片的inSampleSize设置为2"></a>内存占用优化 步骤 四：无用对象释放，非透明背景图片采用RGB_565颜色格式，并且将图片的inSampleSize设置为2</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">void</span> releaseValueAnimator &#123;</div><div class="line">  ...</div><div class="line">  valueAnimator = <span class="keyword">null</span>;</div><div class="line">  ...</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">void</span> initBitmap &#123;</div><div class="line">  ...</div><div class="line">  localOptions.inSampleSize = <span class="number">2</span>;</div><div class="line">  localOptions.inPreferredConfig = Bitmap.Config.RGB_565;</div><div class="line">  ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>来看下变更图片颜色格式及采样率后的memory monitor图：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1889129-cd79479d9c5a1ae3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="monitor_5_bitmap_RGB_565_inSampleSize2.png"></p>
+<p>内存占用降低到28M,减少了8M（后来monitor截图只对背景图片做inPreferredConfig调整，内存占用变为30M,相比全部设置为2，增加了2M）</p>
+<p>##GPU渲染优化<br>接下来我们要专注于GPU渲染优化了。通过前面几张图，也能看到GPU monitor的状态，非常不乐观，完全达不到帧率刷新的要求：即每帧渲染不超过16ms，每秒可以渲染60帧。<br>先看GPU Monitor的各项指标含义：<br><img src="http://upload-images.jianshu.io/upload_images/1889129-2745cf0df2e05417.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="gpu_monitor.png"></p>
+<blockquote>
+<p>Misc Time：表示在主线程执行了太多的任务，导致UI渲染跟不上vSync的信号而出现掉帧的情况；出现该线条的时候，可以在Log中看到这样的日志： Skipped xxx frames! The application may be doing too much work on its main thread</p>
+<p>Swap Buffers：表示处理任务的时间，也可以说是CPU等待GPU完成任务的时间，线条越高，表示GPU做的事情越多；</p>
+<p>Command Issue：表示执行任务的时间，这部分主要是Android进行2D渲染显示列表的时间，为了将内容绘制到屏幕上，Android需要使用Open GL ES的API接口来绘制显示列表，红色线条越高表示需要绘制的视图更多；</p>
+<p>Sync：表示的是准备当前界面上有待绘制的图片所耗费的时间，为了减少该段区域的执行时间，我们可以减少屏幕上的图片数量或者是缩小图片的大小；</p>
+<p>Draw：表示测量和绘制视图列表所需要的时间，蓝色线条越高表示每一帧需要更新很多视图，或者View的onDraw方法中做了耗时操作；</p>
+<p>Measure/Layout：表示布局的onMeasure与onLayout所花费的时间，一旦时间过长，就需要仔细检查自己的布局是不是存在严重的性能问题；</p>
+<p>Animation：表示计算执行动画所需要花费的时间，包含的动画有ObjectAnimator，ViewPropertyAnimator，Transition等等。一旦这里的执行时间过长，就需要检查是不是使用了非官方的动画工具或者是检查动画执行的过程中是不是触发了读写操作等等；</p>
+<p>Input Handling：表示系统处理输入事件所耗费的时间，粗略等于对事件处理方法所执行的时间。一旦执行时间过长，意味着在处理用户的输入事件的地方执行了复杂的操作；<br>Vsync Delay：见Misc Time</p>
+</blockquote>
+<h5 id="GPU渲染优化-步骤一：优化内存占用"><a href="#GPU渲染优化-步骤一：优化内存占用" class="headerlink" title="GPU渲染优化 步骤一：优化内存占用"></a>GPU渲染优化 步骤一：优化内存占用</h5><p>可以回过头去看看内存优化过程演进中的Monitor图，随着内存占用的降低，GPU渲染的性能改善也是随之渐进的，所以GPU渲染性能优化，首选就是内存优化</p>
+<h5 id="GPU渲染优化-步骤二：能在初始化中做的事，坚决不在onDraw中搞。"><a href="#GPU渲染优化-步骤二：能在初始化中做的事，坚决不在onDraw中搞。" class="headerlink" title="GPU渲染优化 步骤二：能在初始化中做的事，坚决不在onDraw中搞。"></a>GPU渲染优化 步骤二：能在初始化中做的事，坚决不在onDraw中搞。</h5><p>在sample代码中重构了onDraw中的画笔的属性设置，绘制区域的创建等代码，这些代码都重构到初始化中。而在onDraw中仅做参数值的动态调整。</p>
+<blockquote>
+<p>Tips.本例Sample最初始未经过任何优化的代码及最终优化版本代码均在github上可以查看到commit记录，这里不再写详细代码对比，请移动github阅读源码。</p>
+</blockquote>
+<p>我们看下重构前后的对比图<code>monitor_5_bitmap_RGB_565_inSampleSize2.png</code> Vs <code>monitor_6_gpu_optimize_object_and_paint_create.png</code>，对比发现，GPU渲染耗时明显降低。</p>
+<blockquote>
+<p>我们暂时先对比看GPU Monitor的 0s ~ 9s 部分的性能改善，目前GPU优化主要在这里体现，因为后半部分各位爷看到了，GPU渲染耗时飙升，掉帧严重，那部分的优化在后续步骤会提到。</p>
+</blockquote>
+<p>重构前 GPU Monitor：<br><img src="http://upload-images.jianshu.io/upload_images/1889129-e5d6a57904065bb8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="monitor_5_bitmap_RGB_565_inSampleSize2.png"></p>
+<p>重构后 GPU Monitor：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1889129-49cbc9134eafa5df.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="monitor_6_gpu_optimize_object_and_paint_create.png"></p>
+<h5 id="GPU渲染优化-步骤三：能用硬件加速，就别关闭它。"><a href="#GPU渲染优化-步骤三：能用硬件加速，就别关闭它。" class="headerlink" title="GPU渲染优化 步骤三：能用硬件加速，就别关闭它。"></a>GPU渲染优化 步骤三：能用硬件加速，就别关闭它。</h5><p>我们都看到了，在GPU Monitor中显示，9s后的GPU渲染，每帧耗时突然飙升，每帧渲染都是超60ms，<br>Draw上升至172ms，Vsync上升至148ms.<br>而且在logcat中也看到日志：<br><code>07-09 11:17:57.135 15980-15980/com.osan.nebula I/Choreographer: Skipped 31 frames!  The application may be doing too much work on its main thread.</code><br>每帧超时，掉帧严重。到底是什么原因呢？经过反复的排查，终于找到原因，我们来聊聊这个飙升的来龙去脉。<br>由于在后半部分的动画中，绘制小星星的光晕效果时，使用的画笔设置了模糊属性，为了给小星星加个光晕效果。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">paintCircleStar.setMaskFilter(<span class="keyword">new</span> BlurMaskFilter(<span class="number">10</span>, BlurMaskFilter.Blur.SOLID));</div></pre></td></tr></table></figure></p>
+<p>然后google官方文档都说了，硬件加速不支持的UI特效API之一就有它。也就是你要用硬件加速，这个模糊效果就失效。所以我一门心思的为了给小星星加光晕… 光晕…晕…，最后我选择了关闭硬件加速<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">drawState7</span><span class="params">(Canvas canvas)</span> </span>&#123;</div><div class="line">    ...</div><div class="line">    canvas.save();</div><div class="line">    setLayerType(LAYER_TYPE_SOFTWARE, <span class="keyword">null</span>);<span class="comment">//关闭硬件加速</span></div><div class="line">    canvas.translate(halfWidth, halfHeight);</div><div class="line">    canvas.scale(scale, scale);</div><div class="line">    canvas.rotate(<span class="number">30f</span> * mValue7);</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>呵呵，为了小星星，闯祸了。因为本例动画中，各种对画布的旋转，缩放，变换，透明度动态变化，在非硬件加速情况下，不停的重新绘制，是GPU渲染耗时飙升的唯一原因。<br>我们来看看开启硬件加速的情况下，GPU Monitor的指标监控：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1889129-a3a8a337954cdd56.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="monitor_7_gpu_optimize_with_hardware_acce.png"></p>
+<p>恢复硬件加速后，渲染耗时立刻恢复到绿线以下，即每帧渲染不超过16ms，达到渲染标准。而且，CPU消耗也明显下降。<br>那么为什么硬件加速有如此神奇之功效？<br>使用硬件加速在对一些view的属性改变上有更高的效率，因为不需要view的invalidate和redrawn。而我们动画中正式大量使用了对属性的改变。属性如:</p>
+<blockquote>
+<p>透明度：alpha<br>移动：x, y, translationX, translationY<br>缩放：scaleX, scaleY<br>旋转：rotation, rotationX, rotationY<br>坐标：pivotX, pivotY</p>
+</blockquote>
+<p>注：<br>1）使用硬件加速，对于渲染性能的提示是显著的，API&gt;14后，硬件加速是默认开启的。<br>2）硬件加速还不支持所有的2D绘图命令，开启后可能会影响自定义View和绘图操作。</p>
+<h5 id="GPU渲染优化-步骤四：优化算数运算，并尽量从ondraw中移除算数运算"><a href="#GPU渲染优化-步骤四：优化算数运算，并尽量从ondraw中移除算数运算" class="headerlink" title="GPU渲染优化 步骤四：优化算数运算，并尽量从ondraw中移除算数运算"></a>GPU渲染优化 步骤四：优化算数运算，并尽量从ondraw中移除算数运算</h5><p>涉及计算任务，能不在ondraw中执行的，就坚决移走，即使只是一个a*b或a/b.<br>因为我们继续重构了onDraw方法，将可能优化的运算代码均做了优化，能放到初始化做的就移到初始化，能提炼共用的运算公式就共用，能不重复算的就绝对不算第二遍。<br>我们来看看优化算数运算后，GPU Monitor的指标监控：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1889129-8f42751a65979c4a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="monitor_8_gpu_optimize_precalc.png"></p>
+<p>相比步骤三中的GPU Monitor指标有了进一步降低，虽然降低幅度很小，但是还是对GPU渲染性能提升有效果的，而且观察发现，优化后，CPU和GPU的指标看起来更平稳。</p>
+<p>最后附上nebula自定义动画的截图<br><img src="http://upload-images.jianshu.io/upload_images/1889129-d7befea486ac77fe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1.png"><br><img src="http://upload-images.jianshu.io/upload_images/1889129-27590756c3aef735.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1889129-a9676a7b3d0cfa7a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="3.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1889129-be5b80a9b8fc343e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="4.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1889129-1f4af7330ca64d1d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="5.png"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">自定义View</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">自定义动画</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">GPU Monior</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/05/14/nebula_gpu_monitor_optimize/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+  
     <article id="post-vue-hackernews-2.0-code-explain" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -548,22 +680,6 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Retrofit</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">okhttp</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">http</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">restful api</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">mvp</a>
               </li>
              
@@ -573,6 +689,18 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">android architecture</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">自定义View</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">自定义动画</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">GPU Monior</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -597,6 +725,22 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">node</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Retrofit</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">okhttp</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">http</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">restful api</a>
               </li>
             
             <div class="clearfix"></div>
