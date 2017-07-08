@@ -220,7 +220,8 @@
 <h5 id="GPU渲染优化-步骤四：优化算数运算，并尽量从ondraw中移除算数运算"><a href="#GPU渲染优化-步骤四：优化算数运算，并尽量从ondraw中移除算数运算" class="headerlink" title="GPU渲染优化 步骤四：优化算数运算，并尽量从ondraw中移除算数运算"></a>GPU渲染优化 步骤四：优化算数运算，并尽量从ondraw中移除算数运算</h5><p>涉及计算任务，能不在ondraw中执行的，就坚决移走，即使只是一个a*b或a/b.<br>因为我们继续重构了onDraw方法，将可能优化的运算代码均做了优化，能放到初始化做的就移到初始化，能提炼共用的运算公式就共用，能不重复算的就绝对不算第二遍。<br>我们来看看优化算数运算后，GPU Monitor的指标监控：</p>
 <p><img src="http://upload-images.jianshu.io/upload_images/1889129-8f42751a65979c4a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="monitor_8_gpu_optimize_precalc.png"></p>
 <p>相比步骤三中的GPU Monitor指标有了进一步降低，虽然降低幅度很小，但是还是对GPU渲染性能提升有效果的，而且观察发现，优化后，CPU和GPU的指标看起来更平稳。</p>
-<p>最后附上nebula自定义动画的截图<br><img src="http://upload-images.jianshu.io/upload_images/1889129-d7befea486ac77fe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1.png"><br><img src="http://upload-images.jianshu.io/upload_images/1889129-27590756c3aef735.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2.png"></p>
+<p>最后附上一张coding过程中的草图以及nebula自定义动画的截图<br><img src="http://upload-images.jianshu.io/upload_images/1889129-8b9b92dbc97e24d4.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="craft.jpg"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1889129-d7befea486ac77fe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1.png"><br><img src="http://upload-images.jianshu.io/upload_images/1889129-27590756c3aef735.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2.png"></p>
 <p><img src="http://upload-images.jianshu.io/upload_images/1889129-a9676a7b3d0cfa7a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="3.png"></p>
 <p><img src="http://upload-images.jianshu.io/upload_images/1889129-be5b80a9b8fc343e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="4.png"></p>
 <p><img src="http://upload-images.jianshu.io/upload_images/1889129-1f4af7330ca64d1d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="5.png"></p>
@@ -692,6 +693,22 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Retrofit</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">okhttp</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">http</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">restful api</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">自定义View</a>
               </li>
              
@@ -725,22 +742,6 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">node</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Retrofit</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">okhttp</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">http</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">restful api</a>
               </li>
             
             <div class="clearfix"></div>
