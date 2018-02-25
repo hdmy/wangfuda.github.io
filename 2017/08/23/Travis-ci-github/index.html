@@ -6,15 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://wangfuda.github.io">
-  <title>Tag: 自定义View | osan&#39;s blog</title>
+  <title>基于Travis CI实现github开源项目在线持续集成和版本发布 | osan&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="keywords" content="android,vue,vuex,vue-router,vuejs,webpack,ssr,node,nodejs,前端,js,jquery,javascript,html5,开发者,程序猿,程序媛,极客,编程,代码,开源,IT网站,Developer,Programmer,Coder,Geek,html,css,css3,用户体验">
-<meta property="og:type" content="website">
-<meta property="og:title" content="osan&#39;s blog">
-<meta property="og:url" content="https://wangfuda.github.io/tags/自定义View/index.html">
+  <meta name="description" content="开启github项目的Travis CI 访问https://travis-ci.org/，使用github账号登录 开启github项目CI开关">
+<meta name="keywords" content="Travis CI,GitHub">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于Travis CI实现github开源项目在线持续集成和版本发布">
+<meta property="og:url" content="https://wangfuda.github.io/2017/08/23/Travis-ci-github/index.html">
 <meta property="og:site_name" content="osan&#39;s blog">
+<meta property="og:description" content="开启github项目的Travis CI 访问https://travis-ci.org/，使用github账号登录 开启github项目CI开关">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1889129-b48b2d8e0f203d1e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1889129-ce2d086361a517b0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1889129-19d7f6ac4c44f296.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1889129-08d411f0703b605c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-02-25T10:35:08.012Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="osan&#39;s blog">
+<meta name="twitter:title" content="基于Travis CI实现github开源项目在线持续集成和版本发布">
+<meta name="twitter:description" content="开启github项目的Travis CI 访问https://travis-ci.org/，使用github账号登录 开启github项目CI开关">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1889129-b48b2d8e0f203d1e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
   
     <link rel="alternative" href="/atom.xml" title="osan&#39;s blog" type="application/atom+xml">
   
@@ -136,68 +145,187 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Travis-ci-github" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/09/nebula_gpu_monitor_optimize/" class="archive-article-date">
-  	<time datetime="2017-07-09T00:55:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-09</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/07/09/nebula_gpu_monitor_optimize/">自定义View星空动画的内存占用/GPU渲染性能优化手记</a>
+    <h1 class="article-title" itemprop="name">
+      基于Travis CI实现github开源项目在线持续集成和版本发布
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2017/08/23/Travis-ci-github/" class="archive-article-date">
+  	<time datetime="2017-08-23T12:28:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-23</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>开启github项目的Travis CI<ul>
+<li>访问<a href="https://travis-ci.org/，使用github账号登录" target="_blank" rel="external">https://travis-ci.org/，使用github账号登录</a><br><img src="http://upload-images.jianshu.io/upload_images/1889129-b48b2d8e0f203d1e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></li>
+<li>开启github项目CI开关<br><img src="http://upload-images.jianshu.io/upload_images/1889129-ce2d086361a517b0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><a id="more"></a>
+<ul>
+<li>配置自动编译脚本:.travis.yml</li>
+</ul>
+</li>
+<li>ubuntu环境，安装ruby，gem，通过gem安装Travis<br>$ gem install travis</li>
+<li>通过Travis的travis setup releases命令生成并配置.travis.yml（需要输入github账号和密码）<br>在您的github项目工程根目录下，执行如下命令，就会自动在根目录生成一个.travis.yml（中间会提示输入github账号密码等信息）：<br>$ travis setup releases<br>这里提供一份参考解释:<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="attr">language:</span> <span class="string">android</span></div><div class="line"><span class="attr">sudo:</span> <span class="literal">false</span></div><div class="line"><span class="attr">android:</span></div><div class="line"><span class="attr">  components:</span></div><div class="line"><span class="bullet">  -</span> <span class="string">build-tools-25.0.2</span></div><div class="line"><span class="bullet">  -</span> <span class="string">android-25</span></div><div class="line"><span class="bullet">  -</span> <span class="string">extra-android-m2repository</span></div><div class="line"><span class="bullet">  -</span> <span class="string">extra-android-support</span></div><div class="line"></div><div class="line">  <span class="comment">#  before install any dependencies required</span></div><div class="line"><span class="attr">before_install:</span></div><div class="line"><span class="bullet">-</span> <span class="string">chmod</span> <span class="string">+x</span> <span class="string">gradlew</span></div><div class="line"></div><div class="line">  <span class="comment">#  run the build script</span></div><div class="line"><span class="attr">script:</span></div><div class="line"><span class="bullet">-</span> <span class="string">"./gradlew assembleRelease"</span></div><div class="line"></div><div class="line">  <span class="comment">#  deploy stage base on tags</span></div><div class="line"><span class="attr">deploy:</span></div><div class="line"><span class="attr">  provider:</span> <span class="string">releases</span></div><div class="line"><span class="attr">  api_key:</span></div><div class="line">	<span class="attr">secure:</span> <span class="string">eY1MPVqsgMQs0deLMeHH0hJrkdxgP8VauCc0AW3MEDy+89EkPQiWK+mQgnNVExGL54ajMurYAs3Y3evRZNNxeIUnhXiFLTLTg9sZlbT1lhK+/0wjQ0pQ6B2RbQLeNUq5dXrJbgLEWTpDgvABZomnYvDiUll7iJESX1Eo2NOZ/YKsjkPXILnm63P37UOrxBzOi45ZTZ5hd4L+E1oDq9k0fI0YEh7HKJYR5RfpFK3fvcNqyoAPG2cBlwGS33dfg4LeZN2Yxb+7cNMraEipj7ZjiiaYFXeGOgBz8xWWqcG+k8MjqpxOKJtlSqKjxFYpa0J97yFxxmmMtIEJX+lExc6XMbm9xeYKMqeJJLwSpmNFk6ggkk/vUsTzMy8+LdczyuQhBvCGMRt/IZRSxGIOznZD3KbmK5/Ceex3aXgin2pEhNA4LmwSLf+zMhniJNIZj3b2cF8u18LR1lGTNxTD03w170lDtX1fizmUQYFSiPJHeBiGp3W5HD9uTLbJfnh9tfJnOIhlKMN5C1Nl2HUyeV4KXCnkl4q73DtMuuNBn66JnFUhuzh0diFVpdAUK0KhwYTGew6DNz3GsnxFuPr/6MnrpUKKxSucDjprA2G0bfd7XbrVSw9BYR3wk5mU3ust5HXqh0erTIh6kRkin6NphPm+NLyQTvvbeXc/+M/zkXWAU9w=</span></div><div class="line"><span class="attr">  file:</span> <span class="string">"app/build/outputs/apk/app-release-unsigned.apk"</span></div><div class="line"><span class="attr">  skip_cleanup:</span> <span class="literal">true</span></div><div class="line"><span class="attr">  on:</span></div><div class="line">	<span class="attr">tags:</span> <span class="literal">true</span></div><div class="line">	<span class="attr">repo:</span> <span class="string">wangfuda/nebula</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<p>以上配置主要实现了：<br>编译前，先授权了gradlew的执行权限<br>然后执行编译脚本：<code>./gradlew assembleRelease</code><br>最后基于tag触发，发布apk文件至github release中<br>以上配置中的具体含义可参考<a href="https://docs.travis-ci.com/user/customizing-the-build/" target="_blank" rel="external">官方文档</a></p>
+<p>其中，<code>api_key</code>中的<code>secure</code>为<code>travis setup releases</code>命令执行中基于github账号密码自动生成的。<br>注：其实Travis CI提供了多种账号加密token的形式，但是其他几种均存在一些bug导致账号校验有问题，目前亲测这种可行。</p>
+<ul>
+<li>配置Bintray oss账号并发布版本至Bintray<ul>
+<li>Bintray上注册账号，或用github账号登录，地址为：<a href="https://bintray.com/signup/oss，而非这个地址：https://bintray.com/signup" target="_blank" rel="external">https://bintray.com/signup/oss，而非这个地址：https://bintray.com/signup</a>  （注意，开源项目必须要用OSS账号，否则会因鉴权问题导致无法上传发布版本）</li>
+<li>配置bintray.gradle（即发布版本的gradle脚本）<br>注：这里可以无需显示提供账号，可使用Travis CI上的该项目的环境变量来设置<br><img src="http://upload-images.jianshu.io/upload_images/1889129-19d7f6ac4c44f296.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br><img src="http://upload-images.jianshu.io/upload_images/1889129-08d411f0703b605c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></li>
+</ul>
+</li>
+</ul>
+<p>在gradle中基于Travis CI环境变量实现共用一套配置：<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="string">bintray</span> <span class="string">&#123;</span></div><div class="line">    <span class="string">user</span> <span class="string">=</span> <span class="string">project.hasProperty("BINTRAY_USER")</span> <span class="string">?</span> <span class="string">BINTRAY_USER</span> <span class="string">:</span> <span class="string">System.getenv("BINTRAY_USER")</span></div><div class="line">    <span class="string">key</span> <span class="string">=</span> <span class="string">project.hasProperty("BINTRAY_KEY")</span> <span class="string">?</span> <span class="string">BINTRAY_KEY</span> <span class="string">:</span> <span class="string">System.getenv("BINTRAY_KEY")</span></div><div class="line">    <span class="string">...</span></div><div class="line"><span class="string">&#125;</span></div></pre></td></tr></table></figure></p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/img/alipay.png">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/img/weixinpay.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">自定义View</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Travis CI</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">自定义动画</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">GPU Monior</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">GitHub</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=https://wangfuda.github.io/2017/08/23/Travis-ci-github/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2017/07/20/replugin-plugin-gradle/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">replugin源码解析之replugin-plugin-gradle（插件的gradle插件）</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+  
+  
   
 
-    
+  
+
+  
 
 
           </div>
@@ -220,9 +348,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",

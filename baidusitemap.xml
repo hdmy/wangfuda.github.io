@@ -4,6 +4,46 @@
 
     
   <url>
+    <loc>https://wangfuda.github.io/2017/08/23/Travis-ci-github/</loc>
+    <lastmod>2018-02-25T10:35:08.012Z</lastmod>
+    <data>
+        <display>
+        <title>基于Travis CI实现github开源项目在线持续集成和版本发布</title>
+        <pubTime>2017-08-23T12:28:00.000Z</pubTime>
+        
+        <tag>Travis CI</tag>
+         
+        <tag>GitHub</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://wangfuda.github.io/2017/07/20/replugin-plugin-gradle/</loc>
+    <lastmod>2018-02-25T10:31:27.956Z</lastmod>
+    <data>
+        <display>
+        <title>replugin源码解析之replugin-plugin-gradle（插件的gradle插件）</title>
+        <pubTime>2017-07-20T14:21:00.000Z</pubTime>
+        
+        <tag>RePlugin</tag>
+         
+        <tag>Gradle</tag>
+         
+        <tag>replugin-plugin-gradle</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://wangfuda.github.io/2017/07/15/replugin-host-gradle/</loc>
     <lastmod>2018-02-25T09:55:43.672Z</lastmod>
     <data>

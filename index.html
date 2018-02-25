@@ -138,6 +138,151 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Travis-ci-github" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/23/Travis-ci-github/">基于Travis CI实现github开源项目在线持续集成和版本发布</a>
+    </h1>
+  
+
+        
+        <a href="/2017/08/23/Travis-ci-github/" class="archive-article-date">
+  	<time datetime="2017-08-23T12:28:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-23</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>开启github项目的Travis CI<ul>
+<li>访问<a href="https://travis-ci.org/，使用github账号登录" target="_blank" rel="external">https://travis-ci.org/，使用github账号登录</a><br><img src="http://upload-images.jianshu.io/upload_images/1889129-b48b2d8e0f203d1e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></li>
+<li>开启github项目CI开关<br><img src="http://upload-images.jianshu.io/upload_images/1889129-ce2d086361a517b0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="">
+        
+          <a class="article-more-a" href="/2017/08/23/Travis-ci-github/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Travis CI</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">GitHub</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/08/23/Travis-ci-github/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+  
+    <article id="post-replugin-plugin-gradle" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/20/replugin-plugin-gradle/">replugin源码解析之replugin-plugin-gradle（插件的gradle插件）</a>
+    </h1>
+  
+
+        
+        <a href="/2017/07/20/replugin-plugin-gradle/" class="archive-article-date">
+  	<time datetime="2017-07-20T14:21:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-20</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p><a href="https://github.com/wangfuda/RePlugin/tree/master/replugin-plugin-gradle" target="_blank" rel="external">replugin-plugin-gradle</a> 是 RePlugin 插件框架中提供给replugin插件用的gradle插件，是一种动态编译方案实现。<br>主要在插件应用的编译期，基于Transform api 注入到编译流程中, 再通过Java字节码类库对编译中间环节的 Java 字节码文件进行修改，以便实现编译期动态修改插件应用的目的。<br><a href="https://github.com/Qihoo360/RePlugin" target="_blank" rel="external">RePlugin</a> 是一套完整的、稳定的、适合全面使用的，占坑类插件化方案，由360手机卫士的RePlugin Team研发，也是业内首个提出”全面插件化“（全面特性、全面兼容、全面使用）的方案。</p>
+</blockquote>
+<p>注 ：文件会提及两种插件，请阅读本文时注意提及插件的上下文情景，避免混淆概念：</p>
+<ul>
+<li>replugin插件：即replugin插件化框架所指的插件，这个插件指android应用业务拆分出的独立模块，是android应用或模块。</li>
+<li>gradle插件：即gradle构建所需的构建插件，是gradle应用或模块。</li>
+</ul>
+<h2 id="结构概览"><a href="#结构概览" class="headerlink" title="结构概览"></a>结构概览</h2><p><img src="http://upload-images.jianshu.io/upload_images/1889129-c3f36a60e25128e0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>
+        
+          <a class="article-more-a" href="/2017/07/20/replugin-plugin-gradle/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">RePlugin</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Gradle</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">replugin-plugin-gradle</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/07/20/replugin-plugin-gradle/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+  
     <article id="post-replugin-host-gradle" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -700,6 +845,18 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">RePlugin</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Gradle</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">replugin-host-gradle</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Retrofit</a>
               </li>
              
@@ -716,6 +873,10 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">replugin-plugin-gradle</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">自定义View</a>
               </li>
              
@@ -725,18 +886,6 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">GPU Monior</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">RePlugin</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Gradle</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">replugin-host-gradle</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -773,6 +922,14 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">node</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Travis CI</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">GitHub</a>
               </li>
             
             <div class="clearfix"></div>
