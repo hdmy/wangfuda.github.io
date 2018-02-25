@@ -371,6 +371,35 @@
   </entry>
   
   <entry>
+    <title>todo-mvp-dagger 源码解读</title>
+    <link href="https://wangfuda.github.io/2017/05/14/todo-mvp-dagger-code-explain/"/>
+    <id>https://wangfuda.github.io/2017/05/14/todo-mvp-dagger-code-explain/</id>
+    <published>2017-05-14T00:55:00.000Z</published>
+    <updated>2017-07-01T08:53:39.491Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p><a href="https://github.com/googlesamples/android-architecture" target="_blank" rel="external">android-architecture</a>The Android Architecture Blueprints project demonstrates strategies to help solve or avoid these common problems. This project implements the same app using different architectural concepts and tools.</p>
+</blockquote>
+<p>敬请期待。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/googlesamples/android-archite
+    
+    </summary>
+    
+    
+      <category term="mvp" scheme="https://wangfuda.github.io/tags/mvp/"/>
+    
+      <category term="dagger" scheme="https://wangfuda.github.io/tags/dagger/"/>
+    
+      <category term="android architecture" scheme="https://wangfuda.github.io/tags/android-architecture/"/>
+    
+  </entry>
+  
+  <entry>
     <title>vue-hackernews-2.0 源码解读</title>
     <link href="https://wangfuda.github.io/2017/05/14/vue-hackernews-2.0-code-explain/"/>
     <id>https://wangfuda.github.io/2017/05/14/vue-hackernews-2.0-code-explain/</id>
@@ -472,35 +501,6 @@
       <category term="webpack" scheme="https://wangfuda.github.io/tags/webpack/"/>
     
       <category term="node" scheme="https://wangfuda.github.io/tags/node/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>todo-mvp-dagger 源码解读</title>
-    <link href="https://wangfuda.github.io/2017/05/14/todo-mvp-dagger-code-explain/"/>
-    <id>https://wangfuda.github.io/2017/05/14/todo-mvp-dagger-code-explain/</id>
-    <published>2017-05-14T00:55:00.000Z</published>
-    <updated>2017-07-01T08:53:39.491Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
-<p><a href="https://github.com/googlesamples/android-architecture" target="_blank" rel="external">android-architecture</a>The Android Architecture Blueprints project demonstrates strategies to help solve or avoid these common problems. This project implements the same app using different architectural concepts and tools.</p>
-</blockquote>
-<p>敬请期待。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/googlesamples/android-archite
-    
-    </summary>
-    
-    
-      <category term="mvp" scheme="https://wangfuda.github.io/tags/mvp/"/>
-    
-      <category term="dagger" scheme="https://wangfuda.github.io/tags/dagger/"/>
-    
-      <category term="android architecture" scheme="https://wangfuda.github.io/tags/android-architecture/"/>
     
   </entry>
   
