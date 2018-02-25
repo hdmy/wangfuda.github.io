@@ -1,0 +1,75 @@
+nebula
+
+…or create a new repository on the command line
+
+echo "# nebula" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin https://github.com/wangfuda/nebula.git
+git push -u origin master
+…or push an existing repository from the command line
+
+git remote add origin https://github.com/wangfuda/nebula.git
+git push -u origin master
+…or import code from another repository
+You can initialize this repository with code from a Subversion, Mercurial, or TFS project.
+
+Import code
+
+http://blog.csdn.net/xuzhuaaron1/article/details/50557875
+比如原图是一个 4000 * 4000 点阵的图,占用内存就是  4000 * 4000 * 单个像素占用字节数 
+
+比如你将 inSampleSize 赋值为2,那就是每隔2行采1行,每隔2列采一列,那你解析出的图片就是原图大小的1/4.
+
+
+0.内存占用分析(小米手机 1k分辨率)
+a.把图片资源从hdpi移动到xxx-hdpi，从246M降低到56M,减少了190M
+b.压缩png图片大小（包体大小会减小，但与内存占用情况无关）
+c.动画完成且不再循环展示的部分，相关bitmap释放，内存占用降低到36M,减少了20M
+d.不再使用的对象释放，非透明背景图片采用RGB_565颜色格式，并且将图片的inSampleSize设置为2，内存占用降低到28M,减少了8M（后来只对背景图片做inSampleSize调整，内存占用变为30M,相比全部设置为2，增加了2M）
+e.在ondraw内，不要做大量计算或创建对象任务，能提到初始化去预计算或预创建对象的，就不要再ondraw内处理。这样可以有效提高GPU绘制性能。
+这里要追求极致：
+0）对内存占用的优化，附带会提高GPU绘制性能，如果内存优化量很大，那么GPU绘制提高会很显著
+注：见图1和图2的GPU monitor对比
+1）画笔的属性设置，绘制区域的创建，一定要放到初始化里处理，在绘制时，仅做数值动态调整。
+注：对比图5和图6的GPU monitor，明显降低
+2）计算任务，能不在ondraw中执行的，就坚决移走，即使只是一个a*b或a/b.
+3）优化Draw和Vsync耗时
+注：http://www.uml.org.cn/Test/201610084.asp   Android Studio上的GPU Monitor可以看到各颜色含义
+图6中，后半部分每帧渲染耗时突然飙升，Draw上升至172ms，Vsync上升至148ms
+07-07 11:17:57.135 15980-15980/com.osan.nebula I/Choreographer: Skipped 31 frames!  The application may be doing too much work on its main thread.
+使用硬件加速，对于渲染性能的提示是显著的，API>14后，硬件加速是默认开启的。
+但是有时候一些UI特效与硬件加速冲突，那么关闭硬件加速后，渲染的耗时迅速飙升，比如本应用中，为了给小星星加上光晕效果，
+关闭了硬件加速（因为使用的画笔设置属性setMaskFilter必须关闭硬件加速才生效），导致渲染耗时飙升。
+恢复硬件加速后，渲染耗时立刻恢复到绿线以下，即每帧渲染不超过16ms，每秒可以渲染60帧，达到渲染标准。而且，CPU消耗也明显下降。
+注：1）对比图6和图7
+
+优化算数运算，并尽量从ondraw中移除算数运算，这样可以降低CPU消耗，以及降低GPU消耗，并使得CPU和GPU消耗更平稳
+注：对比图7和图8
+
+
+
+
+g.关于硬件加速
+http://blog.csdn.net/niu_gao/article/details/7464320
+http://blog.csdn.net/xu_fu/article/details/48208795
+
+1）使用硬件加速在对一些view的属性改变上有更高的效率，因为不需要view的invalidate和redrawn。属性如下
+alpha
+x, y, translationX, translationY
+scaleX, scaleY
+rotation, rotationX, rotationY
+pivotX, pivotY
+2）
+
+h.paint
+http://blog.csdn.net/allen315410/article/details/45059989
+
+
+
+
+1.动画性能分析
+http://blog.csdn.net/tyh123456789/article/details/39001777
+
+adb shell dumpsys gfxinfo com.osan.nebula
